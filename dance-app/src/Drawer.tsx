@@ -10,7 +10,7 @@ const MenuItems = {
   Leaderboard: 'Leaderboard',
 } as const
 
-function Drawer({ onSwitch }): FC<DrawerProps> {
+const Drawer: FC<DrawerProps> = ({ onSwitch }) => {
   const [selected, setSelected] = useState<keyof typeof MenuItems>(MenuItems.Record)
 
   const toggle = (item: keyof typeof MenuItems) => {
