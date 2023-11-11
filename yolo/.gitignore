@@ -2,3 +2,4 @@ poses
 runs
 venv
 yolo*.pt
+__pycache__/
