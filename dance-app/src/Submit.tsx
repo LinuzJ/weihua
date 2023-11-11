@@ -7,10 +7,11 @@ import Loader from './Loader';
 const pb = new PocketBase('https://junctionb.nyman.dev')
 
 interface SubmitProps {
+  tier: number
   video: Recording
 }
 
-const Submit: FC<SubmitProps> = ({ video }) => {
+const Submit: FC<SubmitProps> = ({ tier, video }) => {
   const [isLoading, setIsLoading] = useState(false)
 
   const upload = async () => {
@@ -23,8 +24,9 @@ const Submit: FC<SubmitProps> = ({ video }) => {
       const blob = await fetch(src).then(r => r.blob());
       console.log(blob)
       formData.append('video', blob, `${src}.${fileType}`)
+      formData.append('tier', tier.toString())
       await pb.collection('videos').create(formData)
-      setIsLoading(false)
+      setTimeout(() => setIsLoading((state) => !state), 1000)
     }
   }
   return (
