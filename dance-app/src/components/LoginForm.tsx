@@ -45,10 +45,13 @@ const LoginForm = () => {
   return (
     <Box
       className={classes.paper}
-      sx={{ backgroundColor: theme.palette.primary.main }}
+      sx={{
+        backgroundColor: theme.palette.primary.main,
+        boxShadow: "5px 5px 5px 1px rgba(0, 0, 0, 0.75)",
+      }}
     >
       <>
-        <Typography variant="h4" color="success" gutterBottom>
+        <Typography variant="h4" color="white" gutterBottom>
           Login
         </Typography>
         <form onSubmit={handleSubmit}>
@@ -59,7 +62,7 @@ const LoginForm = () => {
             onChange={handleUsernameChange}
             fullWidth
             margin="normal"
-            color="primary"
+            sx={{ color: "white!important" }}
           />
           <TextField
             label="Password"
@@ -68,9 +71,14 @@ const LoginForm = () => {
             onChange={handlePasswordChange}
             fullWidth
             margin="normal"
+            sx={{ color: "white!important" }}
           />
           <br />
-          <Button type="submit" variant="contained" color="success">
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ color: "white", backgroundColor: "black" }}
+          >
             Login
           </Button>
         </form>

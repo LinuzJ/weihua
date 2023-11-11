@@ -11,10 +11,10 @@ const theme = createTheme({
   },
   palette: {
     background: {
-      default: "#121640",
+      default: "#01bfc8",
     },
     primary: {
-      main: "#00c4cc", // big text
+      main: "#121640",
     },
     secondary: {
       main: "#e43397", // small text
