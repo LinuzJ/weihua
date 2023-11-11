@@ -34,6 +34,12 @@ Key features include
 - scoring of how well your dance matches the dance in today's challenge
 - leaderboard within your friend group for the current day 
 
+The app builds on success of popular apps like BeReal and TikTok to encourage people to move, in a fun and engaging way.
+We hope that by trying again and again to reproduce a challenging dance our users will receive the necessary minutes of 
+daily physical activity. 
+
+We take concerns about social media seriously and design our app in a way that avoids body-shaming, discrimination, hate speech.
+
 ## Implementation
 
 
