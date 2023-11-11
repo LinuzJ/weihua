@@ -47,7 +47,7 @@ def _distance(move1, move2):
     dists = []
     for i in range(0, 17):
         for j in range(0, 2):
-            dist = dtw.distance(move1[i, :, j], move2[i, :, j])
+            dist = dtw.distance_fast(move1[i, :, j], move2[i, :, j])
             dists.append(dist)
     # print(dists)
 
