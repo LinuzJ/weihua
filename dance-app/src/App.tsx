@@ -63,7 +63,7 @@ function App() {
 
   return (
     <div className={`App ${view === "leaderboard" ? "view-change" : ""}`}>
-      <Drawer />
+      <Drawer onSwitch={() => setView(view === 'record' ? 'leaderboard' : 'record')} />
       <div className="view record-view">
         <header
           className={`App-header ${showVideo === "recording" ? "hide" : ""}`}
@@ -74,7 +74,6 @@ function App() {
           >
             <span>{recordingRef.current ? "Record" : "Start"}</span>
           </button>
-          <button onClick={() => setView("leaderboard")}>Leaderboards</button>
         </header>
         <div className="container">
           {activeRecordings.map((recording) => (
@@ -96,7 +95,7 @@ function App() {
           ))}
         </div>
       </div>
-      <div className="view leaderboard-view" onClick={() => setView("record")}>
+      <div className="view leaderboard-view">
         <Leaderboard />
       </div>
     </div>
