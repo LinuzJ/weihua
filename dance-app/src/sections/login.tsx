@@ -1,3 +1,4 @@
+import { Container, Box, CssBaseline } from "@mui/material";
 import LoginForm from "../components/LoginForm";
 import PocketBase, { RecordAuthResponse, RecordModel } from "pocketbase";
 
@@ -6,12 +7,21 @@ interface LoginProps {
   pb: PocketBase;
 }
 
-const Login = ({ setAuth, pb }: LoginProps) => {
+const Login: React.FC<LoginProps> = ({ setAuth, pb }: LoginProps) => {
   return (
-    <div>
-      <h1>Login</h1>
-      <LoginForm setAuth={setAuth} pb={pb} />
-    </div>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginTop: 8,
+        }}
+      >
+        <LoginForm setAuth={setAuth} pb={pb} />
+      </Box>
+    </Container>
   );
 };
 
