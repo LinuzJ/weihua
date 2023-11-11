@@ -1,11 +1,7 @@
-import { useState } from "react";
-
-import PocketBase, { RecordAuthResponse } from "pocketbase";
 import { AuthProvider } from "./context/AuthContext";
 
 import { ThemeProvider } from "@emotion/react";
 import { Box, createTheme, CssBaseline } from "@mui/material";
-import Login from "./sections/login";
 import LandingPage from "./sections/landing";
 import MainDrawerLayout from "./layouts/MainDrawerLayout";
 
@@ -39,8 +35,6 @@ const theme = createTheme({
 });
 
 function App() {
-  const pb = new PocketBase("https://junctionb.nyman.dev");
-
   return (
     <AuthProvider>
       <ThemeProvider theme={theme}>
