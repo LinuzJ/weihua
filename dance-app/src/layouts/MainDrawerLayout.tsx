@@ -9,6 +9,8 @@ type MainDrawerLayoutProps = {
   children: React.ReactNode;
 };
 
+export type View = "home" | "leaderboard";
+
 const useStyles = makeStyles(() => ({
   root: {
     position: "relative",
@@ -23,7 +25,7 @@ const useStyles = makeStyles(() => ({
 
 const MainDrawerLayout = ({ children }: MainDrawerLayoutProps) => {
   const { user } = useContext(AuthContext);
-  const [view, setView] = useState<"home" | "leaderboard">(defaultPageContext);
+  const [view, setView] = useState<View>(defaultPageContext);
   const classes = useStyles();
 
   if (user?.token === undefined || user?.token === "") {

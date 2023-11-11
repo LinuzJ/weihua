@@ -1,64 +1,47 @@
-import { Box, Button, useTheme } from "@mui/material";
+import { Button } from "@mui/material";
 import "../Drawer.css";
 import { makeStyles } from "@mui/styles";
 import { Pages } from "../context/PageContext";
+import { View } from "../layouts/MainDrawerLayout";
+import { Dispatch, SetStateAction } from "react";
 
-const useStyles = makeStyles(() => ({
-  box: {
-    position: "absolute",
-    top: 0,
+const useStyles = makeStyles({
+  nav: {
+    position: "fixed",
+    top: "10px",
     left: 0,
     display: "flex",
     width: "100vw",
     alignItems: "center",
-    // justifyContent: "center",
-    flexDirection: "column",
-    zIndex: "9",
+    flexDirection: "row",
+    justifyContent: "center",
+    zIndex: "10",
   },
-  buttons: {
-    backgroundColor: "white",
-    margin: "0.3rem",
-  },
-  drawerItems: {
-    marginTop: 10,
-    flexBasis: "100%",
-    display: "flex",
-    justifyContent: "space-between",
-  },
-}));
+});
 
 type DrawerProps = {
   view: Pages;
-  setView: (view: Pages) => void;
+  setView: Dispatch<SetStateAction<View>>;
 };
 
 const Drawer = ({ view, setView }: DrawerProps) => {
-  const theme = useTheme();
-  const classes = useStyles(theme);
-
-  const toggle = (item: Pages) => {
-    setView(item);
-  };
+  const classes = useStyles({ view });
 
   return (
-    <Box className={classes.box}>
-      <div className="drawer">
-        <div className={classes.drawerItems}>
-          <Button className={classes.buttons} onClick={() => toggle("home")}>
-            home
-          </Button>
-          <Button
-            className={classes.buttons}
-            onClick={() => toggle("leaderboard")}
-          >
-            leaderboard
-          </Button>
-        </div>
-        <div
-          className={`drawer-slider  ${view === "leaderboard" ? "right" : ""}`}
-        />
-      </div>
-    </Box>
+    <nav className={classes.nav}>
+      <Button
+        sx={{ borderBottom: view === "home" ? "solid 2px white" : "" }}
+        onClick={() => setView("home")}
+      >
+        Home
+      </Button>
+      <Button
+        sx={{ borderBottom: view === "leaderboard" ? "solid 2px white" : "" }}
+        onClick={() => setView("leaderboard")}
+      >
+        Leaderboard
+      </Button>
+    </nav>
   );
 };
 
