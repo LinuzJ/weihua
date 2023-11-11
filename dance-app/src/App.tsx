@@ -7,6 +7,7 @@ import { ThemeProvider } from "@emotion/react";
 import { Box, createTheme, CssBaseline } from "@mui/material";
 import Login from "./sections/login";
 import RecordingPage from "./sections/recording";
+import LandingPage from "./sections/landing";
 
 const theme = createTheme({
   typography: {
@@ -57,7 +58,7 @@ function App() {
           }}
         >
           {auth.token !== "" ? (
-            <RecordingPage />
+            <LandingPage pb={pb} />
           ) : (
             <Login setAuth={setAuth} pb={pb} />
           )}
