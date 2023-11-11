@@ -5,6 +5,7 @@ on:
     branches: ["master", "actions"]
     paths:
       - "backend/yolo_model/**"
+      - ".github/workflows/yolo.yml"
   pull_request:
     branches: ["master"]
 

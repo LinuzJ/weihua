@@ -5,6 +5,7 @@ on:
     branches: ["master", "actions"]
     paths:
       - "dance-app/**"
+      - ".github/workflows/dance-app.yml"
   pull_request:
     branches: ["master"]
 

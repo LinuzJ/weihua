@@ -5,6 +5,7 @@ on:
     branches: ["master", "actions"]
     paths:
       - "backend/pocketbase/**"
+      - ".github/workflows/weihua.yml"
   pull_request:
     branches: ["master"]
 
