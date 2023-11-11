@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import Loader from "./Loader";
 import PocketBase from "pocketbase";
-import "./Leaderboard.css";
+import "../Leaderboard.css";
 
 interface VideoData {
   id: string;
   video: string;
   created: string;
-  tier: string
-  score: number
+  tier: string;
+  score: number;
   collectionId: string;
   expand?: {
     user: User | undefined;
@@ -19,10 +19,11 @@ interface User {
   email: string;
   name: string;
 }
+interface LeaderboardProps {
+  pb: PocketBase;
+}
 
-function Leaderboard() {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const pb = new PocketBase("https://junctionb.nyman.dev");
+function Leaderboard({ pb }: LeaderboardProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [videos, setVideos] = useState<VideoData[]>([]);
 
@@ -31,12 +32,12 @@ function Leaderboard() {
       const newVideos = await pb
         .collection("videos")
         .getFullList<VideoData>({ expand: "user" });
-      console.log(newVideos)
+      console.log(newVideos);
       setVideos(newVideos);
       setIsLoading(false);
     };
     getVideos();
-  }, []);
+  }, [pb]);
 
   if (isLoading) {
     return <Loader />;
@@ -45,7 +46,7 @@ function Leaderboard() {
   const scoredVideos = videos
     .filter((video) => video.expand?.user)
     .filter((video) => video.score !== 0)
-    .sort((a, b) => a.score - b.score)
+    .sort((a, b) => a.score - b.score);
 
   return (
     <div className="leaderboard-list">

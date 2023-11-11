@@ -7,6 +7,7 @@ import { ThemeProvider } from "@emotion/react";
 import { Box, createTheme, CssBaseline } from "@mui/material";
 import Login from "./sections/login";
 import LandingPage from "./sections/landing";
+import MainDrawerLayout from "./layouts/MainDrawerLayout";
 
 const theme = createTheme({
   typography: {
@@ -39,7 +40,6 @@ const theme = createTheme({
 
 function App() {
   const pb = new PocketBase("https://junctionb.nyman.dev");
-
   const [auth, setAuth] =
     useState<RecordAuthResponse<RecordModel>>(defaultAuthContext);
 
@@ -57,7 +57,9 @@ function App() {
           }}
         >
           {auth.token !== "" ? (
-            <LandingPage />
+            <MainDrawerLayout>
+              <LandingPage pb={pb} />
+            </MainDrawerLayout>
           ) : (
             <Login setAuth={setAuth} pb={pb} />
           )}

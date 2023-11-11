@@ -1,10 +1,12 @@
-import { useRef, useState } from "react";
+import { FC, useContext, useRef, useState } from "react";
 import { useRecordWebcam } from "react-record-webcam";
 import { Recording } from "react-record-webcam/dist/useRecording";
-import Drawer from "../Drawer";
-import Leaderboard from "../Leaderboard";
+import Leaderboard from "../components/Leaderboard";
 import Submit from "../Submit";
 import "../Recording.css";
+import { RefVideo } from "./landing";
+import Pocketbase from "pocketbase";
+import { PageContext } from "../context/PageContext";
 
 enum VideoState {
   recording = "recording",
@@ -15,7 +17,10 @@ const options = {
   mimeType: "video/webm;codecs:vp9",
 };
 
-const RecordingPage = () => {
+const RecordingPage: FC<{ refVideo: RefVideo | undefined; pb: Pocketbase }> = ({
+  refVideo,
+  pb,
+}) => {
   const constraints: { aspectRatio: number; height: number; width: number } = {
     aspectRatio: 2.33,
     height: 200,
@@ -32,10 +37,10 @@ const RecordingPage = () => {
     recorderOptions: options,
     constraints,
   });
+  const page = useContext(PageContext);
   const [showVideo, setShowVideo] = useState<VideoState>(VideoState.preview);
-  const [view, setView] = useState<"record" | "leaderboard">("record");
   const recordingRef = useRef<Recording | null>(null);
-  const hasRecording = recordingRef.current?.previewRef.current?.src
+  const hasRecording = recordingRef.current?.previewRef.current?.src;
 
   const initCamera = async () => {
     const newRecording = await createRecording();
@@ -61,10 +66,7 @@ const RecordingPage = () => {
     console.log(recordingRef.current);
   };
   return (
-    <div className={`App ${view === "leaderboard" ? "view-change" : ""}`}>
-      <Drawer
-        onSwitch={() => setView(view === "record" ? "leaderboard" : "record")}
-      />
+    <div className={`App ${page === "leaderboard" ? "view-change" : ""}`}>
       <div className="view record-view">
         <header
           className={`App-header ${showVideo === "recording" ? "hide" : ""}`}
@@ -94,14 +96,24 @@ const RecordingPage = () => {
               />
             </div>
           ))}
+          {recordingRef.current
+            ? null
+            : refVideo && (
+                <video
+                  src={`https://junctionb.nyman.dev/api/files/${refVideo.collectionId}/${refVideo.id}/${refVideo.video}`}
+                  autoPlay
+                  muted
+                  loop
+                />
+              )}
         </div>
       </div>
       <div className="view leaderboard-view">
-        <Leaderboard />
+        <Leaderboard pb={pb} />
       </div>
       <footer className="footer">
-        {recordingRef.current && hasRecording && view === 'record' ? (
-          <Submit tier={1} video={recordingRef.current} />
+        {recordingRef.current && hasRecording && page === "home" ? (
+          <Submit tier={1} video={recordingRef.current} pb={pb} />
         ) : null}
       </footer>
     </div>

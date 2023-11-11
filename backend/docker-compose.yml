@@ -10,3 +10,5 @@ services:
     image: yolo
     restart: always
     network_mode: host
+    volumes:
+      - ./venv:/opt/venv

@@ -21,6 +21,7 @@ const useStyles = makeStyles(() => ({
     margin: "auto",
     marginTop: 3,
     borderRadius: 10,
+    backgroundColor: "#4c0bd1",
   },
 }));
 
@@ -40,9 +41,6 @@ const LoginForm = ({ setAuth, pb }: LoginProps) => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // Perform login logic here, e.g., send data to the server
-    console.log("Username:", username);
-    console.log("Password:", password);
 
     const authData = await pb
       .collection("users")
@@ -55,7 +53,7 @@ const LoginForm = ({ setAuth, pb }: LoginProps) => {
   };
 
   return (
-    <Paper elevation={15} className={classes.paper}>
+    <Paper elevation={25} className={classes.paper}>
       <>
         <Typography variant="h4" gutterBottom>
           Login
