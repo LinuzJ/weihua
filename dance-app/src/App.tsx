@@ -6,7 +6,7 @@ import Leaderboard from "./Leaderboard";
 import Drawer from "./Drawer";
 import PocketBase, { RecordAuthResponse, RecordModel } from "pocketbase";
 import { AuthContext, defaultAuthContext } from "./context/AuthContext";
-import Login from "./login";
+import Login from "./sections/login";
 import Submit from "./Submit";
 
 enum VideoState {
@@ -37,7 +37,7 @@ function App() {
     recorderOptions: options,
   });
   const [showVideo, setShowVideo] = useState<VideoState>(VideoState.preview);
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
   const [view, setView] = useState<"record" | "leaderboard">("record");
   const recordingRef = useRef<Recording | null>(null);
 
@@ -119,8 +119,8 @@ function App() {
               <Submit
                 video={recordingRef.current}
                 setIsLoading={setIsLoading}
-               />
-            ): null}
+              />
+            ) : null}
           </footer>
         </div>
       ) : (

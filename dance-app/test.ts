@@ -10,3 +10,27 @@ const result = await pb.collection("scores").getList();
 
 console.log(authData);
 console.log(result);
+
+// Loginpage -> landing
+
+// landing -> tier1,tier2, tier3, leaderboard
+
+// tierX -> Preview of challenge
+
+// Preview of challenge -> record
+
+// record -> submit?
+
+// submit? -> record, landing, leaderboard
+
+// leaderboard -> landing
+
+// record ? <R> : <L>
+
+// L = {
+//   landing ? <La> : <prev>
+// }
+
+// Prev = {
+
+// }

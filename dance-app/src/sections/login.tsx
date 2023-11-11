@@ -1,4 +1,4 @@
-import LoginForm from "./LoginForm";
+import LoginForm from "../components/LoginForm";
 import PocketBase, { RecordAuthResponse, RecordModel } from "pocketbase";
 
 interface LoginProps {
