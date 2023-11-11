@@ -2,15 +2,15 @@ import numpy as np
 from dtaidistance import dtw
 
 
-# call only this one!
+# call only this one! and frames should only have one person (frames: array of dicts)
 def score(frames1, frames2):
     # high means good match
     return 100 * (1 - _distance(_frames_to_movements(frames1),
                                 _frames_to_movements(frames2)))
 
 
-def _frames_to_movements(frames):
-    assert len(np.asarray(frames).shape) == 1, 'Take only one person for each frame'
+def _frames_to_movements(frames: list[dict]):
+    # assert len(np.asarray(frames).shape) == 1, 'Take only one person for each frame'
     movements = [[] for i in range(0, 17)]  # all relative to upper left corner of the bounding box
     for frame in frames:
         for i in range(0, 17):
