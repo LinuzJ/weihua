@@ -1,12 +1,20 @@
-import { FC, useContext, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useRecordWebcam } from "react-record-webcam";
 import { Recording } from "react-record-webcam/dist/useRecording";
 import Leaderboard from "../components/Leaderboard";
 import Submit from "../Submit";
 import "../Recording.css";
-import { RefVideo } from "./landing";
+import { RefVideo, Tier } from "./landing";
 import Pocketbase from "pocketbase";
 import { PageContext } from "../context/PageContext";
+import { Button, useTheme } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles(() => ({
+  backButton: {
+    zIndex: "10",
+  },
+}));
 
 enum VideoState {
   recording = "recording",
@@ -17,10 +25,16 @@ const options = {
   mimeType: "video/webm;codecs:vp9",
 };
 
-const RecordingPage: FC<{ refVideo: RefVideo | undefined; pb: Pocketbase }> = ({
-  refVideo,
-  pb,
-}) => {
+interface RecordingPageProps {
+  refVideo: RefVideo | undefined;
+  pb: Pocketbase;
+  goBack: (tier: Tier | null) => void;
+}
+
+const RecordingPage = ({ refVideo, pb, goBack }: RecordingPageProps) => {
+  const theme = useTheme();
+  const classes = useStyles(theme);
+
   const constraints: { aspectRatio: number; height: number; width: number } = {
     aspectRatio: 2.33,
     height: 200,
@@ -71,6 +85,9 @@ const RecordingPage: FC<{ refVideo: RefVideo | undefined; pb: Pocketbase }> = ({
         <header
           className={`App-header ${showVideo === "recording" ? "hide" : ""}`}
         >
+          <Button className={classes.backButton} onClick={() => goBack(null)}>
+            Back
+          </Button>
           <button
             className="record-button"
             onClick={recordingRef.current ? record : initCamera}

@@ -16,7 +16,8 @@ export interface RefVideo {
   video: string;
 }
 
-enum Tier {
+// eslint-disable-next-line react-refresh/only-export-components
+export enum Tier {
   Tier1 = 1,
   Tier2 = 2,
   Tier3 = 3,
@@ -53,6 +54,7 @@ const LandingPage = ({ pb }: LandingProps) => {
                 (video) => video.tier === selectedTier.toString(),
               )}
               pb={pb}
+              goBack={setSelectedTier}
             />
           ) : (
             <Container maxWidth="md">
