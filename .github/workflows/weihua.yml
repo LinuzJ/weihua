@@ -3,6 +3,8 @@ name: Build and deploy weihua
 on:
   push:
     branches: ["master", "actions"]
+    paths:
+      - "backend/pocketbase/**"
   pull_request:
     branches: ["master"]
 

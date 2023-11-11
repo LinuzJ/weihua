@@ -3,6 +3,8 @@ name: Build and deploy dance-app
 on:
   push:
     branches: ["master", "actions"]
+    paths:
+      - "dance-app/**"
   pull_request:
     branches: ["master"]
 

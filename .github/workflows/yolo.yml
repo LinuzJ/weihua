@@ -3,6 +3,8 @@ name: Build and deploy yolo
 on:
   push:
     branches: ["master", "actions"]
+    paths:
+      - "backend/yolo_model/**"
   pull_request:
     branches: ["master"]
 

@@ -1,28 +1,59 @@
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import Loader from "./Loader"
+import PocketBase from "pocketbase"
+import './Leaderboard.css'
 
 interface VideoData {
   id: string
-  src: string
-  user: string
+  video: string
+  created: string
+  collectionId: string
+}
+
+interface Score {
+  id: string
+  score: number
+  tier: string
+  expand: {
+    video: VideoData
+    user: User
+  }
+}
+
+interface User {
+  email: string
+  name: string
 }
 
 function Leaderboard() {
+  const pb = new PocketBase("https://junctionb.nyman.dev");
   const [isLoading, setIsLoading] = useState(true)
-  const [leaderBoardEntries, setLeaderBoardEntries] = useState<VideoData[]>([])
+  const [scores, setScores] = useState<Score[]>([])
+
+  useEffect(() => {
+    const getVideos = async () => {
+      const newScores = await pb.collection('scores').getFullList<Score>({ expand: 'video, user' })
+      console.log(newScores)
+      setScores(newScores)
+      setIsLoading(false)
+    }
+    getVideos()
+  }, [])
 
   if (isLoading) {
     return <Loader />
   }
 
   return (
-    <div>
-      {leaderBoardEntries.map((entry) => (
-        <div key={entry.id}>
-          {entry.user}
-          <video preload="metadata">
-            <source src={`${entry.src}#t=0.1`} type='video/mp4' />
-          </video>
+    <div className="leaderboard-list">
+      <div className="spacer" />
+      {scores.map(({ score, tier, expand: { video: entry, user } }) => (
+        <div className="card" key={entry.id}>
+          <video src={`https://junctionb.nyman.dev/api/files/${entry.collectionId}/${entry.id}/${entry.video}`} preload="metadata" autoPlay muted loop />
+          <div className="text-container">
+            <h4>{tier}</h4>
+            <p>{user.name}: {score}</p>
+          </div>
         </div>
       ))}
     </div>

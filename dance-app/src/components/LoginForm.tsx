@@ -1,12 +1,33 @@
 import { useState, FormEvent } from "react";
 import PocketBase, { RecordAuthResponse, RecordModel } from "pocketbase";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
+import { makeStyles } from "@mui/styles";
+import { Theme } from "@mui/material";
 
 interface LoginProps {
   setAuth: (auth: RecordAuthResponse<RecordModel>) => void;
   pb: PocketBase;
 }
 
+const useStyles = makeStyles((theme: Theme) => ({
+  paper: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: 30,
+    maxWidth: 400,
+    margin: "auto",
+    marginTop: 3,
+    borderRadius: 10,
+  },
+}));
+
 const LoginForm = ({ setAuth, pb }: LoginProps) => {
+  const classes = useStyles();
+
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -35,26 +56,35 @@ const LoginForm = ({ setAuth, pb }: LoginProps) => {
   };
 
   return (
-    <div>
-      <h2>Login Form</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username:
-          <input type="text" value={username} onChange={handleUsernameChange} />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
+    <Paper elevation={15} className={classes.paper}>
+      <>
+        <Typography variant="h4" gutterBottom>
+          Login
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="Username"
+            type="text"
+            value={username}
+            onChange={handleUsernameChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Password"
             type="password"
             value={password}
             onChange={handlePasswordChange}
+            fullWidth
+            margin="normal"
           />
-        </label>
-        <br />
-        <button type="submit">Login</button>
-      </form>
-    </div>
+          <br />
+          <Button type="submit" variant="contained" color="primary">
+            Login
+          </Button>
+        </form>
+      </>
+    </Paper>
   );
 };
 
