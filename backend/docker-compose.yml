@@ -2,8 +2,7 @@ version: "3"
 services:
   weihua:
     image: weihua
-    ports:
-      - "8080:8080"
     volumes:
       - ./pb_data:/app/pb_data
     restart: always
+    network_mode: host
