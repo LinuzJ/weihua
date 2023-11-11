@@ -1,8 +1,16 @@
-import React, {useEffect, useRef, useState} from 'react';
-import { useRecordWebcam } from 'react-record-webcam'
-import logo from './logo.svg';
-import './App.css';
-import {Recording} from 'react-record-webcam/dist/useRecording';
+import { useRef, useState } from "react";
+import { useRecordWebcam } from "react-record-webcam";
+import "./App.css";
+import { Recording } from "react-record-webcam/dist/useRecording";
+
+enum VideoState {
+  recording = "recording",
+  preview = "preview",
+}
+
+const options = {
+  mimeType: "video/webm;codecs:vp9",
+};
 
 function App() {
   const {
@@ -11,47 +19,62 @@ function App() {
     openCamera,
     startRecording,
     stopRecording,
-  } = useRecordWebcam()
-  const [showVideo, setShowVideo] = useState<'recording' | 'preview' | null>(null)
-  const recordingRef = useRef<Recording | null>(null)
+  } = useRecordWebcam({
+    recorderOptions: options,
+  });
+  const [showVideo, setShowVideo] = useState<VideoState>(VideoState.preview);
+  const recordingRef = useRef<Recording | null>(null);
 
   const initCamera = async () => {
-    const newRecording = await createRecording()
+    const newRecording = await createRecording();
     if (!newRecording) {
-      console.error('Could not create recording')
-      return
+      console.error("Could not create recording");
+      return;
     }
-    recordingRef.current = newRecording
-    await openCamera(newRecording.id)
-  }
-  
+    recordingRef.current = newRecording;
+    await openCamera(newRecording.id);
+  };
+
   const record = async () => {
-    const { current: recording } = recordingRef
+    const { current: recording } = recordingRef;
     if (recording) {
-      setShowVideo('recording')
-      await startRecording(recording.id)
-      await new Promise((resolve) => (
-       setTimeout(() => {
-          setShowVideo('preview')
-          console.log('resolve')
-          return resolve(true)
-        }, 3000)))
-      await stopRecording(recording.id)
+      setShowVideo(VideoState.recording);
+      await startRecording(recording.id);
+      setTimeout(async () => {
+        await stopRecording(recording.id);
+        setShowVideo(VideoState.preview);
+      }, 3000);
     }
-  }
+  };
 
   return (
     <div className="App">
-      <header className={`App-header ${showVideo === 'recording' ? 'hide' : ''}`}>
-        <button className='record-button' onClick={recordingRef.current ? record : initCamera}>
-          {recordingRef.current ? 'Record' : 'Start'}
+      <header
+        className={`App-header ${showVideo === "recording" ? "hide" : ""}`}
+      >
+        <button
+          className="record-button"
+          onClick={recordingRef.current ? record : initCamera}
+        >
+          {recordingRef.current ? "Record" : "Start"}
         </button>
       </header>
-      <div className='container'>
+      <div className="container">
         {activeRecordings.map((recording) => (
-          <div className='video-container' key={recording.id}>
-            <video className={showVideo === 'preview' ? 'hide' : ''} ref={recording.webcamRef} autoPlay muted />
-            <video className={showVideo === 'preview' ? '' : 'hide'} ref={recording.previewRef} autoPlay muted loop />
+          <div className="video-container" key={recording.id}>
+            <video
+              className={showVideo === "preview" ? "hide" : ""}
+              ref={recording.webcamRef}
+              autoPlay
+              muted
+            />
+            <video
+              className={showVideo === "preview" ? "" : "hide"}
+              ref={recording.previewRef}
+              autoPlay
+              muted
+              loop
+            />
           </div>
         ))}
       </div>
