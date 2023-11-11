@@ -1,8 +1,16 @@
+.drawer-container {
+  position: absolute;
+  width: 100%;
+}
+
 .drawer {
+  position: relative;
   width: 200px;
+  margin: auto;
   display: flex;
   flex-direction: column;
   margin: auto;
+  z-index: 15;
 }
 
 .drawer-items {
@@ -17,11 +25,14 @@
 
 .drawer-slider {
   height: 5px;
-  width: 30%;
-  background-color: black;
+  width: 17%;
+  padding: 0 7.5%;
+  margin-top: 5px;
+  background-color: #7c7c7c;
   border-radius: 5px;
+  transition: transform 0.3s cubic-bezier(0.465, 0.183, 0.153, 0.946);
 }
 
 .drawer .right {
-  align-items: flex-end;
+  transform: translateX(200%);
 }
