@@ -75,7 +75,7 @@ const RecordingPage = ({ refVideo, pb, goBack }: RecordingPageProps) => {
       setTimeout(async () => {
         await stopRecording(recording.id);
         setShowVideo(VideoState.preview);
-      }, 3000);
+      }, 7000);
     }
     console.log(recordingRef.current);
   };
