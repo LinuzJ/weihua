@@ -10,6 +10,7 @@ import (
 	"strconv"
 
 	"github.com/pocketbase/pocketbase"
+	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/models"
 )
@@ -21,6 +22,21 @@ type Comparison struct {
 
 func main() {
 	app := pocketbase.New()
+
+	app.OnRecordBeforeCreateRequest("videos").Add(func(e *core.RecordCreateEvent) error {
+		user, ok := e.HttpContext.Get(apis.ContextAuthRecordKey).(*models.Record)
+		if !ok {
+			return fmt.Errorf("invalid user: %s", e.HttpContext.Get(apis.ContextAuthRecordKey))
+		}
+
+		e.Record.Set("user", user)
+
+		if err := app.Dao().SaveRecord(e.Record); err != nil {
+			return fmt.Errorf("failed to save video %s: %v", e.Record.Id, err)
+		}
+
+		return nil
+	})
 
 	app.OnRecordAfterCreateRequest("videos").Add(func(e *core.RecordCreateEvent) error {
 		videoFile := e.Record.Get("video").(string)
