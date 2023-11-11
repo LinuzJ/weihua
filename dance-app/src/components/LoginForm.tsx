@@ -54,7 +54,7 @@ const LoginForm = () => {
         <Typography variant="h4" color="white" gutterBottom>
           Login
         </Typography>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{ color: "white" }}>
           <TextField
             label="Username"
             type="text"
@@ -62,7 +62,9 @@ const LoginForm = () => {
             onChange={handleUsernameChange}
             fullWidth
             margin="normal"
-            sx={{ color: "white!important" }}
+            sx={{
+              input: { color: "white" },
+            }}
           />
           <TextField
             label="Password"
@@ -71,13 +73,18 @@ const LoginForm = () => {
             onChange={handlePasswordChange}
             fullWidth
             margin="normal"
-            sx={{ color: "white!important" }}
+            sx={{
+              input: { color: "white" },
+            }}
           />
           <br />
           <Button
             type="submit"
             variant="contained"
-            sx={{ color: "white", backgroundColor: "black" }}
+            sx={{
+              color: "white",
+              backgroundColor: theme.palette.secondary.main,
+            }}
           >
             Login
           </Button>
