@@ -1,11 +1,7 @@
-import { useState } from "react";
-
-import PocketBase, { RecordAuthResponse } from "pocketbase";
 import { AuthProvider } from "./context/AuthContext";
 
 import { ThemeProvider } from "@emotion/react";
 import { Box, createTheme, CssBaseline } from "@mui/material";
-import Login from "./sections/login";
 import LandingPage from "./sections/landing";
 import MainDrawerLayout from "./layouts/MainDrawerLayout";
 
@@ -15,10 +11,10 @@ const theme = createTheme({
   },
   palette: {
     background: {
-      default: "#121640",
+      default: "#01bfc8",
     },
     primary: {
-      main: "#00c4cc", // big text
+      main: "#121640",
     },
     secondary: {
       main: "#e43397", // small text
@@ -39,8 +35,6 @@ const theme = createTheme({
 });
 
 function App() {
-  const pb = new PocketBase("https://junctionb.nyman.dev");
-
   return (
     <AuthProvider>
       <ThemeProvider theme={theme}>
@@ -50,12 +44,12 @@ function App() {
             display: "flex",
             alignItems: "start",
             justifyContent: "center",
-            height: "100vh",
+            height: "100dvh",
             width: "100vw",
           }}
         >
           <MainDrawerLayout>
-            <LandingPage pb={pb} />
+            <LandingPage />
           </MainDrawerLayout>
         </Box>
       </ThemeProvider>

@@ -1,13 +1,7 @@
 import { Box, Button, useTheme } from "@mui/material";
-import { FC } from "react";
 import "../Drawer.css";
 import { makeStyles } from "@mui/styles";
 import { Pages } from "../context/PageContext";
-
-interface DrawerProps {
-  view: Pages;
-  setView: (view: Pages) => void;
-}
 
 const useStyles = makeStyles(() => ({
   box: {
@@ -33,7 +27,12 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Drawer: FC<DrawerProps> = ({ view, setView }) => {
+type DrawerProps = {
+  view: Pages;
+  setView: (view: Pages) => void;
+};
+
+const Drawer = ({ view, setView }: DrawerProps) => {
   const theme = useTheme();
   const classes = useStyles(theme);
 

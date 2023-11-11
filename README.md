@@ -51,6 +51,7 @@ We used the _YOLOv8n-pose_ model to extract pose data efficiently on the server 
 
 The frontend is implemented in Vite, while the backend is a mixture of Go and Python together with Pocketbase as a database.
 
+![inferencing](examples/inferenced.mp4)
 
 ## References
 

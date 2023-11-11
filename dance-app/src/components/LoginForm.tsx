@@ -2,8 +2,8 @@ import { useState, FormEvent, useContext } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
 import { makeStyles } from "@mui/styles";
+import { Box, useTheme } from "@mui/material";
 import { AuthContext } from "../context/AuthContext";
 
 const useStyles = makeStyles(() => ({
@@ -16,11 +16,12 @@ const useStyles = makeStyles(() => ({
     margin: "auto",
     marginTop: 3,
     borderRadius: 10,
-    backgroundColor: "#4c0bd1",
+    zIndex: "15",
   },
 }));
 
 const LoginForm = () => {
+  const theme = useTheme();
   const classes = useStyles();
   const { login } = useContext(AuthContext);
 
@@ -42,12 +43,18 @@ const LoginForm = () => {
   };
 
   return (
-    <Paper elevation={25} className={classes.paper}>
+    <Box
+      className={classes.paper}
+      sx={{
+        backgroundColor: theme.palette.primary.main,
+        boxShadow: "5px 5px 5px 1px rgba(0, 0, 0, 0.75)",
+      }}
+    >
       <>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" color="white" gutterBottom>
           Login
         </Typography>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{ color: "white" }}>
           <TextField
             label="Username"
             type="text"
@@ -55,6 +62,9 @@ const LoginForm = () => {
             onChange={handleUsernameChange}
             fullWidth
             margin="normal"
+            sx={{
+              input: { color: "white" },
+            }}
           />
           <TextField
             label="Password"
@@ -63,14 +73,24 @@ const LoginForm = () => {
             onChange={handlePasswordChange}
             fullWidth
             margin="normal"
+            sx={{
+              input: { color: "white" },
+            }}
           />
           <br />
-          <Button type="submit" variant="contained" color="primary">
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{
+              color: "white",
+              backgroundColor: theme.palette.secondary.main,
+            }}
+          >
             Login
           </Button>
         </form>
       </>
-    </Paper>
+    </Box>
   );
 };
 
