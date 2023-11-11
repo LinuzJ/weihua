@@ -7,16 +7,11 @@ interface VideoData {
   id: string;
   video: string;
   created: string;
+  tier: string
+  score: number
   collectionId: string;
-}
-
-interface Score {
-  id: string;
-  score: number;
-  tier: string;
-  expand: {
-    video: VideoData;
-    user: User;
+  expand?: {
+    user: User | undefined;
   };
 }
 
@@ -29,31 +24,36 @@ function Leaderboard() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const pb = new PocketBase("https://junctionb.nyman.dev");
   const [isLoading, setIsLoading] = useState(true);
-  const [scores, setScores] = useState<Score[]>([]);
+  const [videos, setVideos] = useState<VideoData[]>([]);
 
   useEffect(() => {
     const getVideos = async () => {
-      const newScores = await pb
-        .collection("scores")
-        .getFullList<Score>({ expand: "video, user" });
-      console.log(newScores);
-      setScores(newScores);
+      const newVideos = await pb
+        .collection("videos")
+        .getFullList<VideoData>({ expand: "user" });
+      console.log(newVideos)
+      setVideos(newVideos);
       setIsLoading(false);
     };
     getVideos();
-  }, [pb]);
+  }, []);
 
   if (isLoading) {
     return <Loader />;
   }
 
+  const scoredVideos = videos
+    .filter((video) => video.expand?.user)
+    .filter((video) => video.score !== 0)
+    .sort((a, b) => a.score - b.score)
+
   return (
     <div className="leaderboard-list">
       <div className="spacer" />
-      {scores.map(({ score, tier, expand: { video: entry, user } }) => (
-        <div className="card" key={entry.id}>
+      {scoredVideos.map(({ id, collectionId, video, tier, score, expand }) => (
+        <div className="card" key={id}>
           <video
-            src={`https://junctionb.nyman.dev/api/files/${entry.collectionId}/${entry.id}/${entry.video}`}
+            src={`https://junctionb.nyman.dev/api/files/${collectionId}/${id}/${video}`}
             preload="metadata"
             autoPlay
             muted
@@ -62,7 +62,7 @@ function Leaderboard() {
           <div className="text-container">
             <h4>{tier}</h4>
             <p>
-              {user.name}: {score}
+              {expand?.user?.name}: {score}
             </p>
           </div>
         </div>

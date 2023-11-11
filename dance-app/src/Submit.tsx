@@ -25,6 +25,8 @@ const Submit: FC<SubmitProps> = ({ tier, video }) => {
       console.log(blob)
       formData.append('video', blob, `${src}.${fileType}`)
       formData.append('tier', tier.toString())
+      formData.append('try', '1')
+      formData.append('score', '-1')
       await pb.collection('videos').create(formData)
       setTimeout(() => setIsLoading((state) => !state), 1000)
     }
