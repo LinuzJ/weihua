@@ -7,13 +7,16 @@ import "../Recording.css";
 import { RefVideo, Tier } from "./landing";
 import Pocketbase from "pocketbase";
 import { PageContext } from "../context/PageContext";
-import { Button, useTheme } from "@mui/material";
+import { Button, Typography, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles(() => ({
   backButton: {
     marginTop: "10px!important",
     zIndex: "10",
+  },
+  recordButton: {
+    borderRadius: "150px!important",
   },
 }));
 
@@ -89,12 +92,18 @@ const RecordingPage = ({ refVideo, pb, goBack }: RecordingPageProps) => {
           <Button className={classes.backButton} onClick={() => goBack(null)}>
             Back
           </Button>
-          <button
-            className="record-button"
-            onClick={recordingRef.current ? record : initCamera}
+          <div className="record-button"
           >
-            <span>{recordingRef.current ? "Record" : "Start"}</span>
-          </button>
+            <Button
+              onClick={recordingRef.current ? record : initCamera}
+              variant="outlined"
+              className={classes.recordButton}
+            >
+              <Typography variant="h2">
+                {recordingRef.current ? "Record" : "Start"}
+              </Typography>
+            </Button>
+          </div>
         </header>
         <div className="container">
           {activeRecordings.map((recording) => (

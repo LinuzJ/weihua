@@ -43,15 +43,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 128px;
   margin: auto;
   margin-top: 100px;
-  border-radius: 100px;
   z-index: 5;
 } 
 
-.record-button span {
-  padding: 50px;
+.App-header > .record-button h2 {
+  font-weight: 500;
 }
 
 .container {
