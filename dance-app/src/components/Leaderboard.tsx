@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Loader from "./Loader";
 import PocketBase from "pocketbase";
 import "../Leaderboard.css";
+import {Card, CardContent, CardMedia, Stack, Typography} from "@mui/material";
 
 interface VideoData {
   id: string;
@@ -49,25 +50,34 @@ function Leaderboard({ pb }: LeaderboardProps) {
     .sort((a, b) => b.score - a.score);
 
   return (
-    <div className="leaderboard-list">
-      <div className="spacer" />
-      {scoredVideos.map(({ id, collectionId, video, tier, score, expand }) => (
-        <div className="card" key={id}>
-          <video
-            src={`https://junctionb.nyman.dev/api/files/${collectionId}/${id}/${video}`}
-            preload="metadata"
-            autoPlay
-            muted
-            loop
-          />
-          <div className="text-container">
-            <h4>{tier}</h4>
-            <p>
-              {expand?.user?.name}: {score}
-            </p>
-          </div>
+    <div className="list">
+      <Stack spacing={2} overflow="scroll">
+        <div className="spacer">
+          <Typography variant="h2" color="primary">
+            Todays high scores
+          </Typography>
         </div>
-      ))}
+        {scoredVideos.map(({ id, collectionId, video, tier, score, expand }) => (
+          <Card key={id} padding-top="10" >
+            <CardMedia
+              component="video"
+              src={`https://junctionb.nyman.dev/api/files/${collectionId}/${id}/${video}`}
+              width={120}
+              autoPlay
+              muted
+              loop
+             />
+            <CardContent>
+              <Typography gutterBottom variant="h4">Tier {tier}</Typography>
+              <Typography variant="body2">
+                {expand?.user?.name}
+                {': '}
+                <b>{score}</b>
+              </Typography>
+            </CardContent>
+          </Card>
+        ))}
+      </Stack>
     </div>
   );
 }
