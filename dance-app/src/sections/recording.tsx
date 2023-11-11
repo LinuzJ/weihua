@@ -5,7 +5,7 @@ import Drawer from "../components/Drawer";
 import Leaderboard from "../components/Leaderboard";
 import Submit from "../Submit";
 import "../Recording.css";
-import {RefVideo} from "./landing";
+import { RefVideo } from "./landing";
 
 enum VideoState {
   recording = "recording",
@@ -16,7 +16,9 @@ const options = {
   mimeType: "video/webm;codecs:vp9",
 };
 
-const RecordingPage: FC<{ refVideo: RefVideo }> = ({ refVideo }) => {
+const RecordingPage: FC<{ refVideo: RefVideo | undefined }> = ({
+  refVideo,
+}) => {
   const constraints: { aspectRatio: number; height: number; width: number } = {
     aspectRatio: 2.33,
     height: 200,
@@ -95,14 +97,16 @@ const RecordingPage: FC<{ refVideo: RefVideo }> = ({ refVideo }) => {
               />
             </div>
           ))}
-          {recordingRef.current ? null : (
-            <video
-              src={`https://junctionb.nyman.dev/api/files/${refVideo.collectionId}/${refVideo.id}/${refVideo.video}`}
-              autoPlay
-              muted
-              loop
-            />
-          )}
+          {recordingRef.current
+            ? null
+            : refVideo && (
+                <video
+                  src={`https://junctionb.nyman.dev/api/files/${refVideo.collectionId}/${refVideo.id}/${refVideo.video}`}
+                  autoPlay
+                  muted
+                  loop
+                />
+              )}
         </div>
       </div>
       <div className="view leaderboard-view">
