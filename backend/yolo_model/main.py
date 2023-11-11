@@ -14,8 +14,8 @@ def infer():
 
 @app.route('/compare', methods=['POST'])
 def compare():
-    frames1 = request.form.get('frames1')
-    frames2 = request.form.get('frames2')
+    frames1 = request.json.get('frames1')
+    frames2 = request.json.get('frames2')
     return str(comparison.score(frames1, frames2))
 
 
