@@ -1,4 +1,4 @@
-import { Container, Box, CssBaseline } from "@mui/material";
+import { Container, Box } from "@mui/material";
 import LoginForm from "../components/LoginForm";
 import PocketBase, { RecordAuthResponse, RecordModel } from "pocketbase";
 import Logo from "../components/logo";

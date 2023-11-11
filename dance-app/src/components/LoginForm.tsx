@@ -41,9 +41,6 @@ const LoginForm = ({ setAuth, pb }: LoginProps) => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // Perform login logic here, e.g., send data to the server
-    console.log("Username:", username);
-    console.log("Password:", password);
 
     const authData = await pb
       .collection("users")

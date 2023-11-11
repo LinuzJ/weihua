@@ -7,6 +7,7 @@ import { ThemeProvider } from "@emotion/react";
 import { Box, createTheme, CssBaseline } from "@mui/material";
 import Login from "./sections/login";
 import LandingPage from "./sections/landing";
+import MainDrawerLayout from "./layouts/MainDrawerLayout";
 
 const theme = createTheme({
   typography: {
@@ -56,7 +57,9 @@ function App() {
           }}
         >
           {auth.token !== "" ? (
-            <LandingPage />
+            <MainDrawerLayout>
+              <LandingPage />
+            </MainDrawerLayout>
           ) : (
             <Login setAuth={setAuth} pb={pb} />
           )}

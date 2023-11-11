@@ -1,10 +1,12 @@
 import { Box, Button, useTheme } from "@mui/material";
-import { FC, useState } from "react";
+import { FC } from "react";
 import "../Drawer.css";
 import { makeStyles } from "@mui/styles";
+import { Pages } from "../context/PageContext";
 
 interface DrawerProps {
-  onSwitch: () => void;
+  view: Pages;
+  setView: (view: Pages) => void;
 }
 
 const useStyles = makeStyles(() => ({
@@ -27,44 +29,30 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const MenuItems = {
-  Home: "Home",
-  Leaderboard: "Leaderboard",
-} as const;
-
-const Drawer: FC<DrawerProps> = ({ onSwitch }) => {
-  const [selected, setSelected] = useState<keyof typeof MenuItems>(
-    MenuItems.Home,
-  );
+const Drawer: FC<DrawerProps> = ({ view, setView }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
 
-  const toggle = (item: keyof typeof MenuItems) => {
-    onSwitch();
-    setSelected(item);
+  const toggle = (item: Pages) => {
+    setView(item);
   };
 
   return (
     <Box className={classes.box}>
       <div className="drawer">
         <div className={classes.drawerItems}>
-          <Button
-            className={classes.buttons}
-            onClick={() => toggle(MenuItems.Home)}
-          >
-            {MenuItems.Home}
+          <Button className={classes.buttons} onClick={() => toggle("home")}>
+            home
           </Button>
           <Button
             className={classes.buttons}
-            onClick={() => toggle(MenuItems.Leaderboard)}
+            onClick={() => toggle("leaderboard")}
           >
-            {MenuItems.Leaderboard}
+            leaderboard
           </Button>
         </div>
         <div
-          className={`drawer-slider  ${
-            selected === MenuItems.Leaderboard ? "right" : ""
-          }`}
+          className={`drawer-slider  ${view === "leaderboard" ? "right" : ""}`}
         />
       </div>
     </Box>

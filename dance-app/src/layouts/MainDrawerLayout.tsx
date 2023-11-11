@@ -1,4 +1,3 @@
-import { CssBaseline } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Drawer from "../components/Drawer";
 import { useState } from "react";
@@ -29,13 +28,10 @@ const useStyles = makeStyles(() => ({
 const MainDrawerLayout = ({ children }: MainDrawerLayoutProps) => {
   const [view, setView] = useState<"home" | "leaderboard">(defaultPageContext);
   const classes = useStyles();
-
   return (
     <PageContext.Provider value={view}>
       <div className={classes.root}>
-        <Drawer
-          onSwitch={() => setView(view === "home" ? "leaderboard" : "home")}
-        />
+        <Drawer view={view} setView={setView} />
         <main>{children}</main>
       </div>
     </PageContext.Provider>

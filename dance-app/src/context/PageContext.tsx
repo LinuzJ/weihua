@@ -1,5 +1,6 @@
 import { createContext } from "react";
 
-export const defaultPageContext = "home";
+export type Pages = "home" | "leaderboard";
+export const defaultPageContext: Pages = "home";
 
-export const PageContext = createContext<string>(defaultPageContext);
+export const PageContext = createContext<Pages>(defaultPageContext);
