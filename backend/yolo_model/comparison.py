@@ -17,6 +17,8 @@ def _frames_to_movements(frames):
     # all relative to upper left corner of the bounding box
     movements = [[] for _ in range(0, 17)]
     for frame in frames:
+        if not frame:
+            continue
         frame = frame[0]  # first person in the frame
         for i in range(0, 17):
             x = frame['keypoints']['x'][i]
