@@ -105,7 +105,7 @@ const LandingPage = ({ pb }: LandingProps) => {
           )}
         </>
       ) : (
-        <Leaderboard />
+        <Leaderboard pb={pb} />
       )}
     </>
   );

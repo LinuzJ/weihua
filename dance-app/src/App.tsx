@@ -58,7 +58,7 @@ function App() {
         >
           {auth.token !== "" ? (
             <MainDrawerLayout>
-              <LandingPage />
+              <LandingPage pb={pb} />
             </MainDrawerLayout>
           ) : (
             <Login setAuth={setAuth} pb={pb} />
