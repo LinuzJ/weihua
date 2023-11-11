@@ -72,6 +72,7 @@ func inferAndScore(app *pocketbase.PocketBase, record *models.Record, fileName s
 	defer res.Body.Close()
 
 	body, _ = io.ReadAll(res.Body)
+	log.Printf("got score %s for %s", body, record.Id)
 	record.Set("score", body)
 
 	if err := app.Dao().SaveRecord(record); err != nil {
