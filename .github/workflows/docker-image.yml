@@ -76,9 +76,40 @@ jobs:
           path: dance-app/dist
           retention-days: 1
 
+  build-yolo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build the weihua Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: backend/yolo_model
+          push: false
+          tags: "yolo:latest"
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Save the yolo Docker image to file
+        run: |
+          mkdir artifacts
+          docker save yolo:latest > artifacts/yolo.tar
+
+      - name: Temporarily save Docker image to artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: yolo-artifact
+          path: artifacts
+          retention-days: 1
+
   deploy:
     runs-on: ubuntu-latest
-    needs: [build-weihua, build-frontend]
+    needs: [build-weihua, build-frontend, build-yolo]
     steps:
       - uses: actions/checkout@v3
 
@@ -86,6 +117,11 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: weihua-artifact
+
+      - name: Retrieve saved yolo image
+        uses: actions/download-artifact@v2
+        with:
+          name: yolo-artifact
 
       - name: Retrieve dance-app
         uses: actions/download-artifact@v2
@@ -101,8 +137,9 @@ jobs:
           install -m 600 -D /dev/null ~/.ssh/id_rsa
           echo "${{ secrets.M }}" > ~/.ssh/id_rsa
           ssh-keyscan -H junction.nyman.dev > ~/.ssh/known_hosts
-      - name: Copy weihua to server
+      - name: Copy Docker images to server
         run: |
+          ssh root@junction.nyman.dev "docker load && exit" < yolo.tar
           ssh root@junction.nyman.dev "docker load && cd weihua && docker compose up -d && exit" < weihua.tar
       - name: Copy dance-app
         run: scp -r dist/* root@junction.nyman.dev:/usr/share/caddy
