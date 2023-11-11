@@ -13,8 +13,8 @@ import (
 )
 
 type Comparison struct {
-	Comparison1 string `json:"comparison1"`
-	Comparison2 string `json:"comparison2"`
+	Frames1 string `json:"frames1"`
+	Frames2 string `json:"frames2"`
 }
 
 func main() {
@@ -57,8 +57,8 @@ func inferAndScore(app *pocketbase.PocketBase, record *models.Record, fileName s
 
 	log.Printf("calculating score for video: %s", record.Id)
 	reqBody, err := json.Marshal(Comparison{
-		Comparison1: string(body),
-		Comparison2: string(body),
+		Frames1: string(body),
+		Frames2: string(body),
 	})
 	if err != nil {
 		log.Printf("comparison to json failed: %v", err)
