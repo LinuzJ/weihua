@@ -65,6 +65,8 @@ func inferAndScore(app *pocketbase.PocketBase, record *models.Record, fileName s
 		return
 	}
 
+	log.Printf("sending comparison payload: %s", reqBody)
+
 	res, err := http.Post("http://127.0.0.1:5000/compare", "application/json", bytes.NewBuffer(reqBody))
 	if err != nil {
 		log.Printf("comparison failed: %v", err)
