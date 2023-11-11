@@ -13,8 +13,8 @@ import (
 )
 
 type Comparison struct {
-	Comparison1 string
-	Comparison2 string
+	Comparison1 string `json:"comparison1"`
+	Comparison2 string `json:"comparison2"`
 }
 
 func main() {
