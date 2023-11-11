@@ -4,12 +4,14 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/pocketbase/pocketbase"
-	"github.com/pocketbase/pocketbase/core"
-	"github.com/pocketbase/pocketbase/models"
 	"io"
 	"log"
 	"net/http"
+	"strconv"
+
+	"github.com/pocketbase/pocketbase"
+	"github.com/pocketbase/pocketbase/core"
+	"github.com/pocketbase/pocketbase/models"
 )
 
 type Comparison struct {
@@ -31,13 +33,13 @@ func main() {
 	}
 }
 
-func inferAndScore(app *pocketbase.PocketBase, record *models.Record, fileName string) {
-	log.Printf("creating infer for video: %s\n", record.Id)
+func inferAndScore(app *pocketbase.PocketBase, video *models.Record, fileName string) {
+	log.Printf("creating infer for video: %s\n", video.Id)
 
-	inferUrl := fmt.Sprintf("http://127.0.0.1:5000/infer?video=http://127.0.0.1:8080/api/files/videos/%s/%s", record.Id, fileName)
+	inferUrl := fmt.Sprintf("http://127.0.0.1:5000/infer?video=http://127.0.0.1:8080/api/files/videos/%s/%s", video.Id, fileName)
 	response, err := http.Get(inferUrl)
 	if err != nil {
-		fmt.Printf("Error making GET request: %v\n", err)
+		fmt.Printf("Error making GET request to %s %s: %v\n", inferUrl, video.Id, err)
 		return
 	}
 	defer response.Body.Close()
@@ -45,41 +47,45 @@ func inferAndScore(app *pocketbase.PocketBase, record *models.Record, fileName s
 	// Read the response body
 	body, err := io.ReadAll(response.Body)
 	if err != nil {
-		log.Printf("Error reading response body: %v\n", err)
+		log.Printf("Error reading response body %s: %v\n", video.Id, err)
 		return
 	}
 
-	record.Set("infer", body)
-	if err := app.Dao().SaveRecord(record); err != nil {
-		log.Printf("failed to save error %v\n", err)
+	video.Set("infer", body)
+	if err := app.Dao().SaveRecord(video); err != nil {
+		log.Printf("failed to save infer for %s %v\n", video.Id, err)
 	}
-	log.Printf("saved infer for: %s", record.Id)
+	log.Printf("saved infer for: %s", video.Id)
 
-	log.Printf("calculating score for video: %s", record.Id)
+	log.Printf("calculating score for video: %s", video.Id)
 	reqBody, err := json.Marshal(Comparison{
 		Frames1: string(body),
 		Frames2: string(body),
 	})
 	if err != nil {
-		log.Printf("comparison to json failed: %v", err)
+		log.Printf("comparison to json failed %s: %v\n", video.Id, err)
 		return
 	}
 
-	log.Printf("sending comparison payload: %s", reqBody)
+	log.Printf("sending comparison payload failed %s: %s\n", video.Id, reqBody)
 
 	res, err := http.Post("http://127.0.0.1:5000/compare", "application/json", bytes.NewBuffer(reqBody))
 	if err != nil {
-		log.Printf("comparison failed: %v", err)
+		log.Printf("comparison failed: %v\n", err)
 		return
 	}
 	defer res.Body.Close()
 
 	body, _ = io.ReadAll(res.Body)
-	log.Printf("got score %s for %s", body, record.Id)
-	record.Set("score", body)
+	log.Printf("got score %s for %s", body, video.Id)
 
-	if err := app.Dao().SaveRecord(record); err != nil {
-		log.Printf("saving score failed: %v", err)
+	score, _ := strconv.ParseFloat(string(body), 32)
+	if err != nil {
+		log.Printf("failed to parse score %s for %s\n", body, video.Id)
+	}
+	video.Set("score", score)
+	if err := app.Dao().SaveRecord(video); err != nil {
+		log.Printf("saving score failed for %s: %v\n", video.Id, err)
 		return
 	}
 }
