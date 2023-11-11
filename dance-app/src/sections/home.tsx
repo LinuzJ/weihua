@@ -47,7 +47,7 @@ const HomeSection = () => {
             spacing={3}
             alignItems="center"
             justifyContent="center"
-            style={{ height: "100vh" }}
+            style={{ height: "100dvh" }}
           >
             <Grid item xs={12}>
               <Typography variant="h2" color="info" gutterBottom>
