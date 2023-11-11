@@ -56,7 +56,6 @@ func inferAndScore(app *pocketbase.PocketBase, video *models.Record, fileName st
 	}
 	defer response.Body.Close()
 
-	// Read the response body
 	body, err := io.ReadAll(response.Body)
 	if err != nil {
 		log.Printf("Error reading response body %s: %v\n", video.Id, err)
@@ -69,10 +68,20 @@ func inferAndScore(app *pocketbase.PocketBase, video *models.Record, fileName st
 	}
 	log.Printf("saved infer for: %s", video.Id)
 
+	tier := video.Get("tier")
+
+	log.Printf("fetching reference video: %s", tier)
+	referenceVideo, err := app.Dao().FindFirstRecordByData("source_videos", "tier", tier)
+	if err != nil {
+		log.Printf("failed to fetch reference video %s: %v", tier, err)
+	}
+
+	referenceInfer := referenceVideo.Get("infer").(string)
+
 	log.Printf("calculating score for video: %s", video.Id)
 	reqBody, err := json.Marshal(Comparison{
 		Frames1: string(body),
-		Frames2: string(body),
+		Frames2: referenceInfer,
 	})
 	if err != nil {
 		log.Printf("comparison to json failed %s: %v\n", video.Id, err)
