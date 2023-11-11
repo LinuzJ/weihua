@@ -27,4 +27,6 @@ jobs:
           ssh-keyscan -H junction.nyman.dev > ~/.ssh/known_hosts
 
       - name: Copy image to server
-        run: docker save weihua:latest | bzip2 | ssh root@junction.nyman.dev "docker load && cd backend && docker compose up -d"
+        run: docker save weihua:latest | bzip2 | ssh root@junction.nyman.dev "docker load && cd weihua && docker compose up -d && exit"
+      - name: cleanup
+        run: rm -rf ~/.ssh
