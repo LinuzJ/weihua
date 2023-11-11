@@ -4,7 +4,7 @@ import { Recording } from "react-record-webcam/dist/useRecording";
 import Drawer from "../Drawer";
 import Leaderboard from "../Leaderboard";
 import Submit from "../Submit";
-import "../App.css";
+import "../Recording.css";
 
 enum VideoState {
   recording = "recording",

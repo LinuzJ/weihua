@@ -9,17 +9,31 @@ import Login from "./sections/login";
 import RecordingPage from "./sections/recording";
 
 const theme = createTheme({
-  // Customize your theme here
+  typography: {
+    fontFamily: "Montserrat, 'Montserrat Classic', sans-serif",
+  },
   palette: {
+    background: {
+      default: "#121640",
+    },
     primary: {
-      main: "#1976D2",
+      main: "#00c4cc", // big text
     },
     secondary: {
-      main: "#FF4081",
+      main: "#e43397", // small text
     },
-  },
-  typography: {
-    fontFamily: "Roboto, sans-serif",
+    error: {
+      main: "#ee3ec9",
+    },
+    warning: {
+      main: "#4c0bd1",
+    },
+    info: {
+      main: "#7900ff",
+    },
+    success: {
+      main: "#cb88ff",
+    },
   },
 });
 
@@ -29,7 +43,6 @@ function App() {
   const [auth, setAuth] =
     useState<RecordAuthResponse<RecordModel>>(defaultAuthContext);
 
-  console.log(auth);
   return (
     <AuthContext.Provider value={auth}>
       <ThemeProvider theme={theme}>
@@ -40,6 +53,7 @@ function App() {
             alignItems: "center",
             justifyContent: "center",
             height: "100vh",
+            width: "100vw",
           }}
         >
           {auth.token !== "" ? (
