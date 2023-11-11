@@ -11,13 +11,13 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build cmd/main.go
 
 FROM scratch
 
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=builder /app/weihua /app/
+COPY --from=builder /app/main /app/
 
 EXPOSE 8080
 
-ENTRYPOINT [ "/app/weihua", "serve", "--http=0.0.0.0:8080" ]
+ENTRYPOINT [ "/app/main", "serve", "--http=0.0.0.0:8080" ]
