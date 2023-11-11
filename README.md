@@ -8,13 +8,11 @@
 
 ### [Junction'23](https://www.junction2023.com/), Huawei challenge
 
-
 ## Context
 
 More and more concerns are being voiced about mental health situation, especially among young ([1]). The Covid-19 pandemic made us
 more isolated and less physically active. What's more, rise of addictive social media apps that use techniques like eroding natural cues
-and the slot machine effect ([2]) further promotes harmful sedentary lifestyle. 
-
+and the slot machine effect ([2]) further promotes harmful sedentary lifestyle.
 
 ## Concept
 
@@ -44,6 +42,12 @@ We take concerns about social media seriously and design our app in a way that a
 
 ## Implementation
 
+We used state-of-the-art computer vision models to extract pose data from video data.
+With this we can compare user submissions to a reference choreography, and give user scores depending on how accurately they follow the original moves.
+
+We used the YOLOv8n-pose model to extract pose data efficiently.
+
+## References
 
 [1]: https://www.who.int/news/item/22-11-2019-new-who-led-study-says-majority-of-adolescents-worldwide-are-not-sufficiently-physically-active-putting-their-current-and-future-health-at-risk
 [2]: https://www.researchgate.net/publication/328801640_Adolescent_social_networking_How_do_social_media_operators_facilitate_habitual_use
