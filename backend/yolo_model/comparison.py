@@ -1,19 +1,23 @@
+import json
+
 import numpy as np
 from dtaidistance import dtw
 
 
-# call only this one! and frames should only have one person (frames: array of dicts)
+# call only this one!
 def score(frames1, frames2):
     # high means good match
     return 100 * (1 - _distance(_frames_to_movements(frames1),
                                 _frames_to_movements(frames2)))
 
 
-def _frames_to_movements(frames: list[dict]) -> list[float]:
+def _frames_to_movements(frames):
+    frames = json.loads(frames)
     # assert len(np.asarray(frames).shape) == 1, 'Take only one person for each frame'
     # all relative to upper left corner of the bounding box
-    movements = [[] for i in range(0, 17)]
+    movements = [[] for _ in range(0, 17)]
     for frame in frames:
+        frame = frame[0]  # first person in the frame
         for i in range(0, 17):
             x = frame['keypoints']['x'][i]
             if x != 0:
