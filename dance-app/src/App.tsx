@@ -4,7 +4,9 @@ import "./App.css";
 import { Recording } from "react-record-webcam/dist/useRecording";
 import Leaderboard from "./Leaderboard";
 import Drawer from "./Drawer";
-import PocketBase from "pocketbase";
+import PocketBase, { RecordAuthResponse, RecordModel } from "pocketbase";
+import { AuthContext, defaultAuthContext } from "./context/AuthContext";
+import Login from "./login";
 
 enum VideoState {
   recording = "recording",
@@ -61,44 +63,63 @@ function App() {
     console.log(recordingRef.current);
   };
 
+  const [auth, setAuth] =
+    useState<RecordAuthResponse<RecordModel>>(defaultAuthContext);
+
+  console.log(auth);
   return (
-    <div className={`App ${view === "leaderboard" ? "view-change" : ""}`}>
-      <Drawer onSwitch={() => setView(view === 'record' ? 'leaderboard' : 'record')} />
-      <div className="view record-view">
-        <header
-          className={`App-header ${showVideo === "recording" ? "hide" : ""}`}
-        >
-          <button
-            className="record-button"
-            onClick={recordingRef.current ? record : initCamera}
-          >
-            <span>{recordingRef.current ? "Record" : "Start"}</span>
-          </button>
-        </header>
-        <div className="container">
-          {activeRecordings.map((recording) => (
-            <div className="video-container" key={recording.id}>
-              <video
-                className={showVideo === "preview" ? "hide" : ""}
-                ref={recording.webcamRef}
-                autoPlay
-                muted
-              />
-              <video
-                className={showVideo === "preview" ? "" : "hide"}
-                ref={recording.previewRef}
-                autoPlay
-                muted
-                loop
-              />
+    <AuthContext.Provider value={auth}>
+      {auth.token !== "" ? (
+        <div className={`App ${view === "leaderboard" ? "view-change" : ""}`}>
+          <Drawer
+            onSwitch={() =>
+              setView(view === "record" ? "leaderboard" : "record")
+            }
+          />
+          <div className="view record-view">
+            <header
+              className={`App-header ${
+                showVideo === "recording" ? "hide" : ""
+              }`}
+            >
+              <button
+                className="record-button"
+                onClick={recordingRef.current ? record : initCamera}
+              >
+                <span>{recordingRef.current ? "Record" : "Start"}</span>
+              </button>
+              <button onClick={() => setView("leaderboard")}>
+                Leaderboards
+              </button>
+            </header>
+            <div className="container">
+              {activeRecordings.map((recording) => (
+                <div className="video-container" key={recording.id}>
+                  <video
+                    className={showVideo === "preview" ? "hide" : ""}
+                    ref={recording.webcamRef}
+                    autoPlay
+                    muted
+                  />
+                  <video
+                    className={showVideo === "preview" ? "" : "hide"}
+                    ref={recording.previewRef}
+                    autoPlay
+                    muted
+                    loop
+                  />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+          <div className="view leaderboard-view">
+            <Leaderboard />
+          </div>
         </div>
-      </div>
-      <div className="view leaderboard-view">
-        <Leaderboard />
-      </div>
-    </div>
+      ) : (
+        <Login setAuth={setAuth} pb={pb} />
+      )}
+    </AuthContext.Provider>
   );
 }
 

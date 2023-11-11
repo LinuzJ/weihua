@@ -1,6 +1,12 @@
-import React, { useState, FormEvent } from "react";
+import { useState, FormEvent } from "react";
+import PocketBase, { RecordAuthResponse, RecordModel } from "pocketbase";
 
-const LoginForm = () => {
+interface LoginProps {
+  setAuth: (auth: RecordAuthResponse<RecordModel>) => void;
+  pb: PocketBase;
+}
+
+const LoginForm = ({ setAuth, pb }: LoginProps) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -12,12 +18,18 @@ const LoginForm = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     // Perform login logic here, e.g., send data to the server
     console.log("Username:", username);
     console.log("Password:", password);
-    // Reset form fields after submission
+
+    const authData = await pb
+      .collection("users")
+      .authWithPassword(username, password);
+
+    setAuth(authData);
+
     setUsername("");
     setPassword("");
   };
