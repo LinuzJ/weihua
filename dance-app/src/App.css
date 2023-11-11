@@ -1,26 +1,56 @@
 .App {
-  text-align: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
 }
 
-.App-header {
-  position: absolute;
+.view {
   width: 100%;
-  height: 50%;
-  z-index: 10;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: animation;
 }
 
+.view {
+  transition: transform 0.3s cubic-bezier(0.465, 0.183, 0.153, 0.946);
+}
+
+.leaderboard-view {
+  transform: translateX(100%);
+}
+
+.view-change .record-view {
+  transform: translateX(-100%);
+}
+
+.view-change .leaderboard-view {
+  transform: translateX(0);
+}
 .App-header.hide {
   display: none;
 }
 
 .App-header > .record-button {
-  padding: 50px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
   margin: auto;
   margin-top: 100px;
-  border-radius: 15px;
+  border-radius: 100px;
+  z-index: 5;
+} 
+
+.record-button span {
+  padding: 50px;
 }
 
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
 }
@@ -30,6 +60,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 100vh;
+}
+.video-container > video {
+  height: 100%;
 }
 
 .hide {

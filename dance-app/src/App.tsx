@@ -2,6 +2,8 @@ import { useRef, useState } from "react";
 import { useRecordWebcam } from "react-record-webcam";
 import "./App.css";
 import { Recording } from "react-record-webcam/dist/useRecording";
+import Leaderboard from './Leaderboard';
+import Drawer from './Drawer';
 
 enum VideoState {
   recording = "recording",
@@ -13,7 +15,9 @@ const options = {
 };
 
 function App() {
+  const constraints: { aspectRatio: number, height: number, width: number } = { aspectRatio: 2.33, height: 200, width: 100 }
   const {
+    applyConstraints,
     activeRecordings,
     createRecording,
     openCamera,
@@ -23,7 +27,8 @@ function App() {
     recorderOptions: options,
   });
   const [showVideo, setShowVideo] = useState<VideoState>(VideoState.preview);
-  const recordingRef = useRef<Recording | null>(null);
+  const [view, setView] = useState<'record' | 'leaderboard'>('record')
+  const recordingRef = useRef<Recording | null>(null)
 
   const initCamera = async () => {
     const newRecording = await createRecording();
@@ -31,10 +36,11 @@ function App() {
       console.error("Could not create recording");
       return;
     }
-    recordingRef.current = newRecording;
-    await openCamera(newRecording.id);
-  };
-
+    recordingRef.current = newRecording
+    applyConstraints(newRecording.id, constraints)
+    await openCamera(newRecording.id)
+  }
+  
   const record = async () => {
     const { current: recording } = recordingRef;
     if (recording) {
@@ -45,41 +51,35 @@ function App() {
         setShowVideo(VideoState.preview);
       }, 3000);
     }
-  };
+    console.log(recordingRef.current)
+  }
 
   return (
-    <div className="App">
-      <header
-        className={`App-header ${showVideo === "recording" ? "hide" : ""}`}
-      >
-        <button
-          className="record-button"
-          onClick={recordingRef.current ? record : initCamera}
-        >
-          {recordingRef.current ? "Record" : "Start"}
-        </button>
+      <div className={`App ${view === 'leaderboard' ? 'view-change' : ''}`}>
+      <Drawer />
+      <div className='view record-view'>
+      <header className={`App-header ${showVideo === 'recording' ? 'hide' : ''}`}>
+      <button className='record-button' onClick={recordingRef.current ? record : initCamera}>
+      <span>{recordingRef.current ? 'Record' : 'Start'}</span>
+      </button>
+      <button onClick={() => setView('leaderboard')}>
+      Leaderboards
+      </button>
       </header>
-      <div className="container">
-        {activeRecordings.map((recording) => (
-          <div className="video-container" key={recording.id}>
-            <video
-              className={showVideo === "preview" ? "hide" : ""}
-              ref={recording.webcamRef}
-              autoPlay
-              muted
-            />
-            <video
-              className={showVideo === "preview" ? "" : "hide"}
-              ref={recording.previewRef}
-              autoPlay
-              muted
-              loop
-            />
-          </div>
-        ))}
+      <div className='container'>
+      {activeRecordings.map((recording) => (
+            <div className='video-container' key={recording.id}>
+            <video className={showVideo === 'preview' ? 'hide' : ''} ref={recording.webcamRef} autoPlay muted />
+            <video className={showVideo === 'preview' ? '' : 'hide'} ref={recording.previewRef} autoPlay muted loop />
+            </div>
+            ))}
       </div>
-    </div>
-  );
+      </div>
+      <div className='view leaderboard-view' onClick={() => setView('record')}>
+      <Leaderboard />
+      </div>
+      </div>
+  )
 }
 
-export default App;
+export default App

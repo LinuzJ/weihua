@@ -1,0 +1,27 @@
+.drawer {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.drawer-items {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.drawer-items div {
+  flex-basis: 50%;
+}
+
+.drawer-slider {
+  height: 5px;
+  width: 30%;
+  background-color: black;
+  border-radius: 5px;
+}
+
+.drawer .right {
+  align-items: flex-end;
+}
