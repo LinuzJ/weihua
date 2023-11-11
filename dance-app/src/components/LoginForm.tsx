@@ -27,8 +27,8 @@ const useStyles = makeStyles(() => ({
 const LoginForm = ({ setAuth, pb }: LoginProps) => {
   const classes = useStyles();
 
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState<string>("testUser");
+  const [password, setPassword] = useState<string>("Test1234");
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
