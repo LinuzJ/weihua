@@ -1,4 +1,6 @@
 ![logo_16x9.jpg](logo_16x9.jpg)
+![yolo deployment](https://github.com/LinusJ/weihua/actions/workflows/yolo.yml/badge.svg)
+
 
 # Weihua - Learn the moves
 
