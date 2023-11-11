@@ -3,6 +3,7 @@ import PocketBase from "pocketbase";
 import { Recording } from "react-record-webcam/dist/useRecording";
 import "./Submit.css";
 import Loader from "./components/Loader";
+import { Button } from "@mui/material";
 
 interface SubmitProps {
   tier: number;
@@ -32,7 +33,7 @@ const Submit: FC<SubmitProps> = ({ tier, video, pb }) => {
   };
   return (
     <div className="submit-container">
-      <button onClick={upload}>{isLoading ? <Loader /> : "Analyze"}</button>
+      <Button onClick={upload}>{isLoading ? <Loader /> : "Analyze"}</Button>
     </div>
   );
 };

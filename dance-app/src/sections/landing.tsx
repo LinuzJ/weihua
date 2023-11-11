@@ -52,6 +52,7 @@ const LandingPage = ({ pb }: LandingProps) => {
               refVideo={refVideos.find(
                 (video) => video.tier === selectedTier.toString(),
               )}
+              pb={pb}
             />
           ) : (
             <Container maxWidth="md">
