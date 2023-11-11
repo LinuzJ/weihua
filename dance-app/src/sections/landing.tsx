@@ -5,9 +5,9 @@ import RecordingPage from "./recording";
 import { PageContext } from "../context/PageContext";
 import Leaderboard from "../components/Leaderboard";
 
-// interface LandingProps {
-//   pb: PocketBase;
-// }
+interface LandingProps {
+  pb: PocketBase;
+}
 
 export interface RefVideo {
   id: string;
@@ -24,9 +24,7 @@ enum Tier {
   Tier5 = 5,
 }
 
-const pb = new PocketBase("https://junctionb.nyman.dev");
-
-const LandingPage = () => {
+const LandingPage = ({ pb }: LandingProps) => {
   const page = useContext(PageContext);
   const [selectedTier, setSelectedTier] = useState<Tier | null>(null);
   const [refVideos, setRefVideos] = useState<RefVideo[]>([]);

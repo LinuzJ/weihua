@@ -4,14 +4,13 @@ import { Recording } from "react-record-webcam/dist/useRecording";
 import "./Submit.css";
 import Loader from "./components/Loader";
 
-const pb = new PocketBase("https://junctionb.nyman.dev");
-
 interface SubmitProps {
   tier: number;
   video: Recording;
+  pb: PocketBase;
 }
 
-const Submit: FC<SubmitProps> = ({ tier, video }) => {
+const Submit: FC<SubmitProps> = ({ tier, video, pb }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const upload = async () => {

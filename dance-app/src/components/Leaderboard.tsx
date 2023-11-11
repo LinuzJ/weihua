@@ -19,10 +19,11 @@ interface User {
   email: string;
   name: string;
 }
+interface LeaderboardProps {
+  pb: PocketBase;
+}
 
-function Leaderboard() {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const pb = new PocketBase("https://junctionb.nyman.dev");
+function Leaderboard({ pb }: LeaderboardProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [videos, setVideos] = useState<VideoData[]>([]);
 
