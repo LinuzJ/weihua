@@ -6,7 +6,6 @@ import { AuthContext, defaultAuthContext } from "./context/AuthContext";
 import { ThemeProvider } from "@emotion/react";
 import { Box, createTheme, CssBaseline } from "@mui/material";
 import Login from "./sections/login";
-import RecordingPage from "./sections/recording";
 import LandingPage from "./sections/landing";
 
 const theme = createTheme({
@@ -58,7 +57,7 @@ function App() {
           }}
         >
           {auth.token !== "" ? (
-            <LandingPage pb={pb} />
+            <LandingPage />
           ) : (
             <Login setAuth={setAuth} pb={pb} />
           )}

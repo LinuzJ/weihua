@@ -98,7 +98,9 @@ const RecordingPage = () => {
         <Leaderboard />
       </div>
       <footer className="footer">
-        {recordingRef.current ? <Submit tier={1} video={recordingRef.current} /> : null}
+        {recordingRef.current ? (
+          <Submit tier={1} video={recordingRef.current} />
+        ) : null}
       </footer>
     </div>
   );

@@ -1,21 +1,20 @@
 import { Container, Typography, Button, Grid } from "@mui/material";
-import PocketBase from "pocketbase";
 import { useState } from "react";
 import RecordingPage from "./recording";
 
-interface LandingProps {
-  pb: PocketBase;
-}
+// interface LandingProps {
+//   pb: PocketBase;
+// }
 
 enum Tier {
-  Tier1 = "Tier 1",
-  Tier2 = "Tier 2",
-  Tier3 = "Tier 3",
-  Tier4 = "Tier 4",
-  Tier5 = "Tier 5",
+  Tier1 = 1,
+  Tier2 = 2,
+  Tier3 = 3,
+  Tier4 = 4,
+  Tier5 = 5,
 }
 
-const LandingPage = ({ pb }: LandingProps) => {
+const LandingPage = () => {
   const [selectedTier, setSelectedTier] = useState<Tier | null>(null);
 
   const handleButtonClick = (tier: Tier) => {
@@ -37,7 +36,7 @@ const LandingPage = ({ pb }: LandingProps) => {
           >
             <Grid item xs={12}>
               <Typography variant="h2" gutterBottom>
-                Welcome to Our Website
+                Ur fat!
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
                 Explore our amazing features!
