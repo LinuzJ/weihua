@@ -39,7 +39,6 @@ const theme = createTheme({
 
 function App() {
   const pb = new PocketBase("https://junctionb.nyman.dev");
-
   const [auth, setAuth] =
     useState<RecordAuthResponse<RecordModel>>(defaultAuthContext);
 

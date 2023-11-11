@@ -1,8 +1,8 @@
 import { FC, useRef, useState } from "react";
 import { useRecordWebcam } from "react-record-webcam";
 import { Recording } from "react-record-webcam/dist/useRecording";
-import Drawer from "../Drawer";
-import Leaderboard from "../Leaderboard";
+import Drawer from "../components/Drawer";
+import Leaderboard from "../components/Leaderboard";
 import Submit from "../Submit";
 import "../Recording.css";
 import {RefVideo} from "./landing";
@@ -36,7 +36,7 @@ const RecordingPage: FC<{ refVideo: RefVideo }> = ({ refVideo }) => {
   const [showVideo, setShowVideo] = useState<VideoState>(VideoState.preview);
   const [view, setView] = useState<"record" | "leaderboard">("record");
   const recordingRef = useRef<Recording | null>(null);
-  const hasRecording = recordingRef.current?.previewRef.current?.src
+  const hasRecording = recordingRef.current?.previewRef.current?.src;
 
   const initCamera = async () => {
     const newRecording = await createRecording();
@@ -109,7 +109,7 @@ const RecordingPage: FC<{ refVideo: RefVideo }> = ({ refVideo }) => {
         <Leaderboard />
       </div>
       <footer className="footer">
-        {recordingRef.current && hasRecording && view === 'record' ? (
+        {recordingRef.current && hasRecording && view === "record" ? (
           <Submit tier={1} video={recordingRef.current} />
         ) : null}
       </footer>
