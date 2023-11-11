@@ -46,7 +46,7 @@ function Leaderboard({ pb }: LeaderboardProps) {
   const scoredVideos = videos
     .filter((video) => video.expand?.user)
     .filter((video) => video.score !== 0)
-    .sort((a, b) => a.score - b.score);
+    .sort((a, b) => b.score - a.score);
 
   return (
     <div className="leaderboard-list">
