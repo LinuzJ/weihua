@@ -2,20 +2,96 @@ name: Docker Image CI
 
 on:
   push:
-    branches: ["master"]
+    branches: ["master", "actions"]
   pull_request:
     branches: ["master"]
 
 jobs:
-  build:
+  build-weihua:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Build the Docker image
-        working-directory: backend/pocketbase
-        run: docker build . --file Dockerfile --tag weihua:latest
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build the weihua Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: backend/pocketbase
+          push: false
+          tags: "weihua:latest"
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Save the weihua Docker image to file
+        run: |
+          mkdir artifacts
+          docker save weihua:latest > artifacts/weihua.tar
+
+      - name: Temporarily save Docker image to artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: weihua-artifact
+          path: artifacts
+          retention-days: 1
+
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+      - name: Get pnpm store directory
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        working-directory: dance-app
+        run: pnpm install
+
+      - name: Build dance-app
+        working-directory: dance-app
+        run: pnpm build
+
+      - name: Temporarily save dance-app
+        uses: actions/upload-artifact@v3
+        with:
+          name: dance-app-artifact
+          path: dance-app/dist
+          retention-days: 1
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build-weihua, build-frontend]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Retrieve saved weihua image
+        uses: actions/download-artifact@v2
+        with:
+          name: weihua-artifact
+
+      - name: Retrieve dance-app
+        uses: actions/download-artifact@v2
+        with:
+          name: dance-app-artifact
+          path: dist
 
       - name:
           Install ssh keys
@@ -25,8 +101,10 @@ jobs:
           install -m 600 -D /dev/null ~/.ssh/id_rsa
           echo "${{ secrets.M }}" > ~/.ssh/id_rsa
           ssh-keyscan -H junction.nyman.dev > ~/.ssh/known_hosts
-
-      - name: Copy image to server
-        run: docker save weihua:latest | bzip2 | ssh root@junction.nyman.dev "docker load && cd weihua && docker compose up -d && exit"
+      - name: Copy weihua to server
+        run: |
+          ssh root@junction.nyman.dev "docker load && cd weihua && docker compose up -d && exit" < weihua.tar
+      - name: Copy dance-app
+        run: scp -r dist/* root@junction.nyman.dev:/usr/share/caddy
       - name: cleanup
         run: rm -rf ~/.ssh
