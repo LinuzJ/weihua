@@ -1,4 +1,4 @@
-module weihua
+module github.com/LinuzJ/weihua
 
 go 1.21.3
 
