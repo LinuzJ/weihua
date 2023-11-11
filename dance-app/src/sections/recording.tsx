@@ -30,10 +30,12 @@ const RecordingPage = () => {
     stopRecording,
   } = useRecordWebcam({
     recorderOptions: options,
+    constraints,
   });
   const [showVideo, setShowVideo] = useState<VideoState>(VideoState.preview);
   const [view, setView] = useState<"record" | "leaderboard">("record");
   const recordingRef = useRef<Recording | null>(null);
+  const hasRecording = recordingRef.current?.previewRef.current?.src
 
   const initCamera = async () => {
     const newRecording = await createRecording();
@@ -78,13 +80,13 @@ const RecordingPage = () => {
           {activeRecordings.map((recording) => (
             <div className="video-container" key={recording.id}>
               <video
-                className={showVideo === "preview" ? "hide" : ""}
+                className={hasRecording ? "hide" : ""}
                 ref={recording.webcamRef}
                 autoPlay
                 muted
               />
               <video
-                className={showVideo === "preview" ? "" : "hide"}
+                className={hasRecording ? "" : "hide"}
                 ref={recording.previewRef}
                 autoPlay
                 muted
@@ -98,7 +100,7 @@ const RecordingPage = () => {
         <Leaderboard />
       </div>
       <footer className="footer">
-        {recordingRef.current ? (
+        {recordingRef.current && hasRecording && view === 'record' ? (
           <Submit tier={1} video={recordingRef.current} />
         ) : null}
       </footer>
