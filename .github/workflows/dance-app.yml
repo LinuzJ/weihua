@@ -1,0 +1,68 @@
+name: Build and deploy dance-app
+
+on:
+  push:
+    branches: ["master", "actions"]
+  pull_request:
+    branches: ["master"]
+
+jobs:
+  build-dance-app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+      - name: Get pnpm store directory
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        working-directory: dance-app
+        run: pnpm install
+
+      - name: Build dance-app
+        working-directory: dance-app
+        run: pnpm build
+
+      - name: Temporarily save dance-app
+        uses: actions/upload-artifact@v3
+        with:
+          name: dance-app-artifact
+          path: dance-app/dist
+          retention-days: 1
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build-dance-app]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Retrieve dance-app
+        uses: actions/download-artifact@v2
+        with:
+          name: dance-app-artifact
+          path: dist
+      - name:
+          Install ssh keys
+          # check this thread to understand why its needed:
+          # <https://stackoverflow.com/a/70447517>
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.M }}" > ~/.ssh/id_rsa
+          ssh-keyscan -H junction.nyman.dev > ~/.ssh/known_hosts
+      - name: Copy dance-app
+        run: scp -r dist/* root@junction.nyman.dev:/usr/share/caddy
+      - name: cleanup
+        run: rm -rf ~/.ssh
