@@ -1,6 +1,7 @@
 import { RecordAuthResponse, RecordModel } from "pocketbase";
 import { createContext } from "react";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const defaultAuthContext = {
   record: {
     avatar: "",

@@ -5,14 +5,13 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import { makeStyles } from "@mui/styles";
-import { Theme } from "@mui/material";
 
 interface LoginProps {
   setAuth: (auth: RecordAuthResponse<RecordModel>) => void;
   pb: PocketBase;
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles(() => ({
   paper: {
     display: "flex",
     flexDirection: "column",
@@ -28,8 +27,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 const LoginForm = ({ setAuth, pb }: LoginProps) => {
   const classes = useStyles();
 
-  const [username, setUsername] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [username, setUsername] = useState<string>("testUser");
+  const [password, setPassword] = useState<string>("Test1234");
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);

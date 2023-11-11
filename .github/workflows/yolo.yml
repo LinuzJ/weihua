@@ -5,6 +5,7 @@ on:
     branches: ["master", "actions"]
     paths:
       - "backend/yolo_model/**"
+      - ".github/workflows/yolo.yml"
   pull_request:
     branches: ["master"]
 
@@ -32,23 +33,6 @@ jobs:
           mkdir artifacts
           docker save yolo:latest > artifacts/yolo.tar
 
-      - name: Temporarily save Docker image to artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: yolo-artifact
-          path: artifacts
-          retention-days: 1
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: [build-yolo]
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Retrieve saved yolo image
-        uses: actions/download-artifact@v2
-        with:
-          name: yolo-artifact
       - name:
           Install ssh keys
           # check this thread to understand why its needed:
@@ -59,6 +43,6 @@ jobs:
           ssh-keyscan -H junction.nyman.dev > ~/.ssh/known_hosts
       - name: Copy Docker images to server
         run: |
-          ssh root@junction.nyman.dev "docker load && cd weihua && docker compose up -d && exit" < yolo.tar
+          docker save yolo:latest | bzip2 | ssh root@junction.nyman.dev "docker load && cd weihua && docker compose up -d && exit"
       - name: cleanup
         run: rm -rf ~/.ssh

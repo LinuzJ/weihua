@@ -6,7 +6,7 @@ import { AuthContext, defaultAuthContext } from "./context/AuthContext";
 import { ThemeProvider } from "@emotion/react";
 import { Box, createTheme, CssBaseline } from "@mui/material";
 import Login from "./sections/login";
-import RecordingPage from "./sections/recording";
+import LandingPage from "./sections/landing";
 
 const theme = createTheme({
   typography: {
@@ -50,14 +50,14 @@ function App() {
         <Box
           sx={{
             display: "flex",
-            alignItems: "center",
+            alignItems: "start",
             justifyContent: "center",
             height: "100vh",
             width: "100vw",
           }}
         >
           {auth.token !== "" ? (
-            <RecordingPage />
+            <LandingPage />
           ) : (
             <Login setAuth={setAuth} pb={pb} />
           )}

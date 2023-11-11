@@ -1,6 +1,7 @@
 import { Container, Box, CssBaseline } from "@mui/material";
 import LoginForm from "../components/LoginForm";
 import PocketBase, { RecordAuthResponse, RecordModel } from "pocketbase";
+import Logo from "../components/logo";
 
 interface LoginProps {
   setAuth: (auth: RecordAuthResponse<RecordModel>) => void;
@@ -16,9 +17,9 @@ const Login: React.FC<LoginProps> = ({ setAuth, pb }: LoginProps) => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          marginTop: 8,
         }}
       >
+        <Logo />
         <LoginForm setAuth={setAuth} pb={pb} />
       </Box>
     </Container>
