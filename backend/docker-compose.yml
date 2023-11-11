@@ -6,3 +6,8 @@ services:
       - ./pb_data:/app/pb_data
     restart: always
     network_mode: host
+  yolo:
+    image: yolo
+    ports:
+      - "5000:5000"
+    restart: always
