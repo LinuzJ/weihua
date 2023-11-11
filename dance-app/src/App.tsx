@@ -55,7 +55,7 @@ function App() {
           }}
         >
           <MainDrawerLayout>
-            <LandingPage pb={pb} />
+            <LandingPage />
           </MainDrawerLayout>
         </Box>
       </ThemeProvider>
