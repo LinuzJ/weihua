@@ -1,10 +1,18 @@
+import { useEffect, useState } from "react";
 import { Container, Typography, Button, Grid } from "@mui/material";
-import { useState } from "react";
+import PocketBase from "pocketbase";
 import RecordingPage from "./recording";
 
 // interface LandingProps {
 //   pb: PocketBase;
 // }
+
+export interface RefVideo {
+  id: string
+  collectionId: string
+  tier: string
+  video: string
+}
 
 enum Tier {
   Tier1 = 1,
@@ -14,8 +22,19 @@ enum Tier {
   Tier5 = 5,
 }
 
+const pb = new PocketBase('https://junctionb.nyman.dev')
+
 const LandingPage = () => {
   const [selectedTier, setSelectedTier] = useState<Tier | null>(null);
+  const [refVideos, setRefVideos] = useState<RefVideo[]>([]);
+
+  useEffect(() => {
+    const getRefVideos = async () => {
+      const videos = await pb.collection('source_videos').getFullList<RefVideo>()
+      setRefVideos(videos)
+    }
+    getRefVideos()
+  }, [])
 
   const handleButtonClick = (tier: Tier) => {
     setSelectedTier(tier);
@@ -24,7 +43,9 @@ const LandingPage = () => {
   return (
     <>
       {selectedTier ? (
-        <RecordingPage />
+        <RecordingPage
+          refVideo={refVideos.find((video) => video.tier === selectedTier.toString())}
+        />
       ) : (
         <Container maxWidth="md">
           <Grid

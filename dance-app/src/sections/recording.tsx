@@ -1,10 +1,11 @@
-import { useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { useRecordWebcam } from "react-record-webcam";
 import { Recording } from "react-record-webcam/dist/useRecording";
 import Drawer from "../Drawer";
 import Leaderboard from "../Leaderboard";
 import Submit from "../Submit";
 import "../Recording.css";
+import {RefVideo} from "./landing";
 
 enum VideoState {
   recording = "recording",
@@ -15,7 +16,7 @@ const options = {
   mimeType: "video/webm;codecs:vp9",
 };
 
-const RecordingPage = () => {
+const RecordingPage: FC<{ refVideo: RefVideo }> = ({ refVideo }) => {
   const constraints: { aspectRatio: number; height: number; width: number } = {
     aspectRatio: 2.33,
     height: 200,
@@ -94,6 +95,14 @@ const RecordingPage = () => {
               />
             </div>
           ))}
+          {recordingRef.current ? null : (
+            <video
+              src={`https://junctionb.nyman.dev/api/files/${refVideo.collectionId}/${refVideo.id}/${refVideo.video}`}
+              autoPlay
+              muted
+              loop
+            />
+          )}
         </div>
       </div>
       <div className="view leaderboard-view">
