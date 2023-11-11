@@ -1,5 +1,7 @@
 ![logo_16x9.jpg](logo_16x9.jpg)
-![yolo deployment](https://github.com/LinusJ/weihua/actions/workflows/yolo.yml/badge.svg)
+![yolo deployment](https://github.com/LinuzJ/weihua/actions/workflows/yolo.yml/badge.svg)
+![yolo deployment](https://github.com/LinuzJ/weihua/actions/workflows/dance-app.yml/badge.svg)
+![yolo deployment](https://github.com/LinuzJ/weihua/actions/workflows/weihua.yml/badge.svg)
 
 
 # Weihua - Learn the moves
