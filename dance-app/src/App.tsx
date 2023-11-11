@@ -7,6 +7,7 @@ import Drawer from "./Drawer";
 import PocketBase, { RecordAuthResponse, RecordModel } from "pocketbase";
 import { AuthContext, defaultAuthContext } from "./context/AuthContext";
 import Login from "./login";
+import Submit from "./Submit";
 
 enum VideoState {
   recording = "recording",
@@ -36,6 +37,7 @@ function App() {
     recorderOptions: options,
   });
   const [showVideo, setShowVideo] = useState<VideoState>(VideoState.preview);
+  const [isLoading, setIsLoading] = useState(true)
   const [view, setView] = useState<"record" | "leaderboard">("record");
   const recordingRef = useRef<Recording | null>(null);
 
@@ -88,9 +90,6 @@ function App() {
               >
                 <span>{recordingRef.current ? "Record" : "Start"}</span>
               </button>
-              <button onClick={() => setView("leaderboard")}>
-                Leaderboards
-              </button>
             </header>
             <div className="container">
               {activeRecordings.map((recording) => (
@@ -115,6 +114,14 @@ function App() {
           <div className="view leaderboard-view">
             <Leaderboard />
           </div>
+          <footer className="footer">
+            {recordingRef.current ? (
+              <Submit
+                video={recordingRef.current}
+                setIsLoading={setIsLoading}
+               />
+            ): null}
+          </footer>
         </div>
       ) : (
         <Login setAuth={setAuth} pb={pb} />

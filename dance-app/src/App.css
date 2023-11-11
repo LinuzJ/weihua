@@ -76,3 +76,9 @@
 .hide {
   display: none;
 }
+
+.footer {
+  position: absolute;
+  width: 100%;
+  bottom: 10px;
+}
