@@ -1,7 +1,6 @@
 from flask import Flask
 
 import comparison
-import model
 
 app = Flask(__name__)
 
