@@ -29,11 +29,7 @@ func main() {
 			return fmt.Errorf("invalid user: %s", e.HttpContext.Get(apis.ContextAuthRecordKey))
 		}
 
-		e.Record.Set("user", user)
-
-		if err := app.Dao().SaveRecord(e.Record); err != nil {
-			return fmt.Errorf("failed to save video %s: %v", e.Record.Id, err)
-		}
+		e.Record.Set("user", user.Id)
 
 		return nil
 	})
