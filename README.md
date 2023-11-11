@@ -47,6 +47,8 @@ With this we can compare user submissions to a reference choreography, and give 
 
 We used the _YOLOv8n-pose_ model to extract pose data efficiently on the server after streaming webcam footage from the client. The pose data is compared using _dynamic time warping_, which can alleviate syncing issues between the submission and reference.
 
+![dtw.png](dtw.png)
+
 The frontend is implemented in Vite, while the backend is a mixture of Go and Python together with Pocketbase as a database.
 
 

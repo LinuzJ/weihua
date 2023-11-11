@@ -7,8 +7,8 @@ from dtaidistance import dtw
 # call only this one!
 def score(frames1, frames2):
     # high means good match
-    return 100 * (1 - _distance(_frames_to_movements(frames1),
-                                _frames_to_movements(frames2)))
+    return max(0, min(100, 10 + 100 * (1 - _distance(_frames_to_movements(frames1),
+                                                     _frames_to_movements(frames2)))))
 
 
 def _frames_to_movements(frames):
@@ -35,11 +35,11 @@ def _frames_to_movements(frames):
     for i in range(0, 17):
         if np.linalg.norm(movements[i, :, 0]) != 0:
             movements[i, :, 0] = movements[i, :, 0] / \
-                np.linalg.norm(movements[i, :, 0])
+                                 np.linalg.norm(movements[i, :, 0])
 
         if np.linalg.norm(movements[i, :, 1]) != 0:
             movements[i, :, 1] = movements[i, :, 1] / \
-                np.linalg.norm(movements[i, :, 1])
+                                 np.linalg.norm(movements[i, :, 1])
     return movements
 
 
