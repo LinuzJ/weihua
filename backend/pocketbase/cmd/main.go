@@ -30,7 +30,7 @@ func main() {
 func getScore(app *pocketbase.PocketBase, record *models.Record, fileName string) {
 	log.Printf("creating score for video, %s\n", record.Id)
 
-	yoloServerUrl := fmt.Sprintf("http://127.0.0.1:5000/infer?video=https://127.0.0.1:8080/api/files/videos/%s/%s", record.Id, fileName)
+	yoloServerUrl := fmt.Sprintf("http://127.0.0.1:5000/infer?video=http://127.0.0.1:8080/api/files/videos/%s/%s", record.Id, fileName)
 
 	response, err := http.Get(yoloServerUrl)
 	if err != nil {
