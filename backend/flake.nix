@@ -29,6 +29,8 @@
 
             # https://github.com/golangci/golangci-lint
             golangci-lint
+
+            python3
           ];
         };
       });
