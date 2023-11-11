@@ -45,7 +45,10 @@ We take concerns about social media seriously and design our app in a way that a
 We used state-of-the-art computer vision models to extract pose data from video data.
 With this we can compare user submissions to a reference choreography, and give user scores depending on how accurately they follow the original moves.
 
-We used the YOLOv8n-pose model to extract pose data efficiently.
+We used the _YOLOv8n-pose_ model to extract pose data efficiently on the server after streaming webcam footage from the client. The pose data is compared using _dynamic time warping_, which can alleviate syncing issues between the submission and reference.
+
+The frontend is implemented in Vite, while the backend is a mixture of Go and Python together with Pocketbase as a database.
+
 
 ## References
 
