@@ -13,6 +13,7 @@ import (
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/models"
+	"github.com/pocketbase/pocketbase/tools/types"
 )
 
 type Comparison struct {
@@ -76,7 +77,7 @@ func inferAndScore(app *pocketbase.PocketBase, video *models.Record, fileName st
 		log.Printf("failed to fetch reference video %s: %v", tier, err)
 	}
 
-	referenceInfer := referenceVideo.Get("infer").(string)
+	referenceInfer := string(referenceVideo.Get("infer").(types.JsonRaw))
 
 	log.Printf("calculating score for video: %s", video.Id)
 	reqBody, err := json.Marshal(Comparison{
