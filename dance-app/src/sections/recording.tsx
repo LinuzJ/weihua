@@ -4,11 +4,11 @@ import { Recording } from "react-record-webcam/dist/useRecording";
 import Leaderboard from "../components/Leaderboard";
 import Submit from "../Submit";
 import "../Recording.css";
-import { RefVideo, Tier } from "./landing";
 import Pocketbase from "pocketbase";
 import { PageContext } from "../context/PageContext";
 import { Button, Typography, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { RefVideo, Tier } from "./home";
 
 const useStyles = makeStyles(() => ({
   backButton: {
@@ -92,8 +92,7 @@ const RecordingPage = ({ refVideo, pb, goBack }: RecordingPageProps) => {
           <Button className={classes.backButton} onClick={() => goBack(null)}>
             Back
           </Button>
-          <div className="record-button"
-          >
+          <div className="record-button">
             <Button
               onClick={recordingRef.current ? record : initCamera}
               variant="outlined"
@@ -136,7 +135,7 @@ const RecordingPage = ({ refVideo, pb, goBack }: RecordingPageProps) => {
         </div>
       </div>
       <div className="view leaderboard-view">
-        <Leaderboard pb={pb} />
+        <Leaderboard />
       </div>
       <footer className="footer">
         {recordingRef.current && hasRecording && page === "home" ? (
