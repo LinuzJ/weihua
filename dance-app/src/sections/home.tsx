@@ -45,19 +45,25 @@ const HomeSection = () => {
           <Grid
             container
             spacing={3}
-            alignItems="center"
+            alignContent="center"
             justifyContent="center"
             style={{ height: "100dvh" }}
           >
-            <Grid item xs={12}>
+            <Grid
+              container
+              item
+              xs={12}
+              alignContent="start"
+              justifyContent="center"
+            >
               <Typography variant="h2" color="info" gutterBottom>
-                Ur fat!
+                Daily challenges!
               </Typography>
               <Typography variant="subtitle1" color="info">
-                Explore our amazing features!
+                Start with Tier 1 and challenge yourself with the harder ones!
               </Typography>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={8} md={4}>
               <Button
                 variant="contained"
                 color="primary"
@@ -67,7 +73,7 @@ const HomeSection = () => {
                 Tier 1
               </Button>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={8} md={4}>
               <Button
                 variant="contained"
                 color="secondary"
@@ -77,7 +83,7 @@ const HomeSection = () => {
                 Tier 2
               </Button>
             </Grid>
-            <Grid item xs={12} md={4}>
+            <Grid item xs={8} md={4}>
               <Button
                 variant="contained"
                 color="info"
