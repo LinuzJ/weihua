@@ -11,7 +11,6 @@ interface LoginProps {
 const Login: React.FC<LoginProps> = ({ setAuth, pb }: LoginProps) => {
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <Box
         sx={{
           display: "flex",

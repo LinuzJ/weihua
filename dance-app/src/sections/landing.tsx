@@ -61,10 +61,10 @@ const LandingPage = () => {
             style={{ height: "100vh" }}
           >
             <Grid item xs={12}>
-              <Typography variant="h2" gutterBottom>
+              <Typography variant="h2" color="info" gutterBottom>
                 Ur fat!
               </Typography>
-              <Typography variant="subtitle1" color="textSecondary">
+              <Typography variant="subtitle1" color="info">
                 Explore our amazing features!
               </Typography>
             </Grid>
@@ -97,11 +97,6 @@ const LandingPage = () => {
               >
                 Tier 3
               </Button>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="subtitle1" color="textSecondary">
-                Selected Tier: {selectedTier || "None"}
-              </Typography>
             </Grid>
           </Grid>
         </Container>

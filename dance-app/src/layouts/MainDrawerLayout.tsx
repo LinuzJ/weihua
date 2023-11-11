@@ -33,7 +33,6 @@ const MainDrawerLayout = ({ children }: MainDrawerLayoutProps) => {
   return (
     <PageContext.Provider value={view}>
       <div className={classes.root}>
-        <CssBaseline />
         <Drawer
           onSwitch={() => setView(view === "home" ? "leaderboard" : "home")}
         />
