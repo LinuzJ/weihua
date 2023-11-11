@@ -11,18 +11,22 @@ interface DrawerProps {
 
 const useStyles = makeStyles(() => ({
   box: {
+    position: "absolute",
+    top: 0,
+    left: 0,
     display: "flex",
-    height: "100vh",
     width: "100vw",
     alignItems: "center",
     // justifyContent: "center",
     flexDirection: "column",
+    zIndex: "9",
   },
   buttons: {
     backgroundColor: "white",
     margin: "0.3rem",
   },
   drawerItems: {
+    marginTop: 10,
     flexBasis: "100%",
     display: "flex",
     justifyContent: "space-between",

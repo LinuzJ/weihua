@@ -9,19 +9,13 @@ type MainDrawerLayoutProps = {
 
 const useStyles = makeStyles(() => ({
   root: {
+    position: "relative",
     display: "flex",
     height: "100vh",
     width: "100vw",
     alignItems: "center",
-    marginTop: "0.5rem",
     // justifyContent: "center",
     flexDirection: "column",
-  },
-  header: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "start",
-    height: "12vh", // 10% of the screen height
   },
 }));
 
