@@ -44,7 +44,7 @@ function App() {
             display: "flex",
             alignItems: "start",
             justifyContent: "center",
-            height: "100vh",
+            height: "100dvh",
             width: "100vw",
           }}
         >

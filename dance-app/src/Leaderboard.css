@@ -1,7 +1,7 @@
 .list {
   width: 100vw;
   overflow: scroll;
-  max-height: 100vh;
+  max-height: 100dvh;
 }
 
 .spacer {
