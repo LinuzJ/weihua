@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 
 @app.route('/infer')
-def infer(video_link):
+def infer():
     return model.cool_thing()
 
 

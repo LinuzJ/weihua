@@ -9,9 +9,10 @@ def score(frames1, frames2):
                                 _frames_to_movements(frames2)))
 
 
-def _frames_to_movements(frames: list[dict]):
+def _frames_to_movements(frames: list[dict]) -> list[float]:
     # assert len(np.asarray(frames).shape) == 1, 'Take only one person for each frame'
-    movements = [[] for i in range(0, 17)]  # all relative to upper left corner of the bounding box
+    # all relative to upper left corner of the bounding box
+    movements = [[] for i in range(0, 17)]
     for frame in frames:
         for i in range(0, 17):
             x = frame['keypoints']['x'][i]
@@ -27,10 +28,12 @@ def _frames_to_movements(frames: list[dict]):
 
     for i in range(0, 17):
         if np.linalg.norm(movements[i, :, 0]) != 0:
-            movements[i, :, 0] = movements[i, :, 0] / np.linalg.norm(movements[i, :, 0])
+            movements[i, :, 0] = movements[i, :, 0] / \
+                np.linalg.norm(movements[i, :, 0])
 
         if np.linalg.norm(movements[i, :, 1]) != 0:
-            movements[i, :, 1] = movements[i, :, 1] / np.linalg.norm(movements[i, :, 1])
+            movements[i, :, 1] = movements[i, :, 1] / \
+                np.linalg.norm(movements[i, :, 1])
     return movements
 
 

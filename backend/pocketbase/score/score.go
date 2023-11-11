@@ -7,7 +7,7 @@ import (
 )
 
 func GetScore() string {
-	yoloServerUrl := "http://127.0.0.1:5000/yolo_model"
+	yoloServerUrl := "http://127.0.0.1:5000/infer"
 
 	response, err := http.Get(yoloServerUrl)
 	if err != nil {

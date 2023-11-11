@@ -16,8 +16,14 @@ func main() {
 
 	// serves static files from the provided public dir (if exists)
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
-		e.Router.GET("/api/weihu/score", func(c echo.Context) error {
+		e.Router.GET("/api/weihua/score", func(c echo.Context) error {
+
+			// Figure out where video is
+			// Get reference score
+
+			// GetScore
 			score := score.GetScore()
+
 			return c.String(http.StatusOK, score)
 		}, apis.ActivityLogger(app))
 		return nil
