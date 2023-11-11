@@ -4,6 +4,7 @@ import PocketBase from "pocketbase";
 import RecordingPage from "./recording";
 import { PageContext } from "../context/PageContext";
 import Leaderboard from "../components/Leaderboard";
+import { AuthContext } from "../context/AuthContext";
 
 interface LandingProps {
   pb: PocketBase;
@@ -29,6 +30,12 @@ const LandingPage = ({ pb }: LandingProps) => {
   const page = useContext(PageContext);
   const [selectedTier, setSelectedTier] = useState<Tier | null>(null);
   const [refVideos, setRefVideos] = useState<RefVideo[]>([]);
+  const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (user?.token !== "") {
+    }
+  }, [user]);
 
   useEffect(() => {
     const getRefVideos = async () => {

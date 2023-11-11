@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import PocketBase, { RecordAuthResponse, RecordModel } from "pocketbase";
-import { AuthContext, defaultAuthContext } from "./context/AuthContext";
+import PocketBase, { RecordAuthResponse } from "pocketbase";
+import { AuthProvider } from "./context/AuthContext";
 
 import { ThemeProvider } from "@emotion/react";
 import { Box, createTheme, CssBaseline } from "@mui/material";
@@ -40,11 +40,9 @@ const theme = createTheme({
 
 function App() {
   const pb = new PocketBase("https://junctionb.nyman.dev");
-  const [auth, setAuth] =
-    useState<RecordAuthResponse<RecordModel>>(defaultAuthContext);
 
   return (
-    <AuthContext.Provider value={auth}>
+    <AuthProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Box
@@ -56,16 +54,12 @@ function App() {
             width: "100vw",
           }}
         >
-          {auth.token !== "" ? (
-            <MainDrawerLayout>
-              <LandingPage pb={pb} />
-            </MainDrawerLayout>
-          ) : (
-            <Login setAuth={setAuth} pb={pb} />
-          )}
+          <MainDrawerLayout>
+            <LandingPage pb={pb} />
+          </MainDrawerLayout>
         </Box>
       </ThemeProvider>
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
 

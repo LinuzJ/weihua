@@ -1,15 +1,10 @@
-import { useState, FormEvent } from "react";
-import PocketBase, { RecordAuthResponse, RecordModel } from "pocketbase";
+import { useState, FormEvent, useContext } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import { makeStyles } from "@mui/styles";
-
-interface LoginProps {
-  setAuth: (auth: RecordAuthResponse<RecordModel>) => void;
-  pb: PocketBase;
-}
+import { AuthContext } from "../context/AuthContext";
 
 const useStyles = makeStyles(() => ({
   paper: {
@@ -25,28 +20,22 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const LoginForm = ({ setAuth, pb }: LoginProps) => {
+const LoginForm = () => {
   const classes = useStyles();
+  const { login } = useContext(AuthContext);
 
   const [username, setUsername] = useState<string>("testUser");
   const [password, setPassword] = useState<string>("Test1234");
 
-  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setUsername(e.target.value);
-  };
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setPassword(e.target.value);
-  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const authData = await pb
-      .collection("users")
-      .authWithPassword(username, password);
-
-    setAuth(authData);
+    await login(username, password);
 
     setUsername("");
     setPassword("");
