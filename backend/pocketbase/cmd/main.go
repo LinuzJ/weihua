@@ -77,7 +77,12 @@ func inferAndScore(app *pocketbase.PocketBase, video *models.Record, fileName st
 		log.Printf("failed to fetch reference video %s: %v", tier, err)
 	}
 
-	referenceInfer := string(referenceVideo.Get("infer").(types.JsonRaw))
+	referenceInferJSON, ok := referenceVideo.Get("infer").(types.JsonRaw)
+	if !ok {
+		log.Printf("Failed to parse infer to JSON: %s", referenceVideo.Get("infer"))
+		return
+	}
+	referenceInfer := string(referenceInferJSON)
 
 	log.Printf("calculating score for video: %s", video.Id)
 	reqBody, err := json.Marshal(Comparison{
