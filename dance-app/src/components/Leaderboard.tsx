@@ -47,12 +47,16 @@ function Leaderboard() {
       <Stack spacing={2} overflow="scroll" alignItems="center">
         <div className="spacer">
           <Typography variant="h2" color="primary">
-            Todays high scores
+            Today's high scores
           </Typography>
         </div>
         {scoredVideos.map(
           ({ id, collectionId, video, tier, score, expand }) => (
-            <Card key={id} padding-top="10" sx={{ width: "100%", maxWidth: "600px" }}>
+            <Card
+              key={id}
+              padding-top="10"
+              sx={{ width: "100%", maxWidth: "600px" }}
+            >
               <CardMedia
                 component="video"
                 src={`https://junctionb.nyman.dev/api/files/${collectionId}/${id}/${video}`}
