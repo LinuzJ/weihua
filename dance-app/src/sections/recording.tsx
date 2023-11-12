@@ -27,7 +27,7 @@ enum VideoState {
 }
 
 const options = {
-  mimeType: "video/webm;codecs:vp9",
+  mimeType: "video/webm;codecs=vp9",
 };
 
 interface RecordingPageProps {
