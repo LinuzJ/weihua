@@ -114,19 +114,20 @@ const RecordingPage = ({
             Back
           </Button>
           <div className="record-button">
-            <Button
-              onClick={recordingRef.current ? countDown : initCamera}
-              variant="outlined"
-              className={classes.recordButton}
-            >
-              {showCountDown ? (
-                <span className="countdown" />
-              ) : (
-                <Typography variant="h2">
-                  {recordingRef.current ? "Record" : "Start"}
-                </Typography>
-              )}
-            </Button>
+            {showCountDown ? (
+              <div className="countdown" />
+            ) : (
+              <Button
+                onClick={recordingRef.current ? countDown : initCamera}
+                variant="outlined"
+                className={classes.recordButton}
+                sx={{ backgroundColor: "rgba(1, 191, 200, 0.1)" }}
+              >
+                  <Typography variant="h2">
+                    {recordingRef.current ? "Start" : "Get ready"}
+                  </Typography>
+              </Button>
+            )}
           </div>
         </header>
         <div className="container">
