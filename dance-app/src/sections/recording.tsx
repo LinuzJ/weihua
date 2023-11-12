@@ -65,6 +65,7 @@ const RecordingPage = ({
   });
   const page = useContext(PageContext);
   const [showVideo, setShowVideo] = useState<VideoState>(VideoState.preview);
+  const [showCountDown, setShowCountDown] = useState<boolean>(false);
   const recordingRef = useRef<Recording | null>(null);
   const hasRecording = recordingRef.current?.previewRef.current?.src;
 
@@ -79,7 +80,18 @@ const RecordingPage = ({
     await openCamera(newRecording.id);
   };
 
+  const countDown = () => {
+    console.log('countdown start')
+    setShowCountDown(true)
+    setTimeout(() => {
+      record()
+      console.log('countdown end')
+      setShowCountDown(false)
+    }, 3000)
+  }
+
   const record = async () => {
+    console.log('record start')
     const { current: recording } = recordingRef;
     if (recording) {
       setShowVideo(VideoState.recording);
@@ -87,6 +99,7 @@ const RecordingPage = ({
       setTimeout(async () => {
         await stopRecording(recording.id);
         setShowVideo(VideoState.preview);
+        console.log('record end')
       }, 7000);
     }
     console.log(recordingRef.current);
@@ -102,13 +115,17 @@ const RecordingPage = ({
           </Button>
           <div className="record-button">
             <Button
-              onClick={recordingRef.current ? record : initCamera}
+              onClick={recordingRef.current ? countDown : initCamera}
               variant="outlined"
               className={classes.recordButton}
             >
-              <Typography variant="h2">
-                {recordingRef.current ? "Record" : "Start"}
-              </Typography>
+              {showCountDown ? (
+                <span className="countdown" />
+              ) : (
+                <Typography variant="h2">
+                  {recordingRef.current ? "Record" : "Start"}
+                </Typography>
+              )}
             </Button>
           </div>
         </header>

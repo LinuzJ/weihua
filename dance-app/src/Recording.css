@@ -71,6 +71,25 @@
   width: 100%;
 }
 
+.countdown:before {
+  content: '321';
+
+  font-family:monospace;
+  display:inline-block;
+  width:1ch;
+  margin-left: 40px;
+  margin-right: 40px;
+  font-size: 10rem;
+  font-weight: 500;
+  overflow:hidden;
+
+  animation:countdowns 3s steps(3) infinite;
+}
+
+@keyframes countdowns {
+  0% {text-indent:0}
+  100% {text-indent:-3ch;}
+}
 .hide {
   display: none;
 }
