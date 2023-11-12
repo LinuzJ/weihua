@@ -47,11 +47,23 @@ With this we can compare user submissions to a reference choreography, and give 
 
 We used the _YOLOv8n-pose_ model to extract pose data efficiently on the server after streaming webcam footage from the client. The pose data is compared using _dynamic time warping_, which can alleviate syncing issues between the submission and reference.
 
+### YOLO
+
+YOLO stands for You Only Look Once, and works by being incredibly efficient on single images, which means this can be done repeatedly for every image in a videostream.
+Ready-trained models can be downloaded online, and are easy to get up and running with.
+
+![inferenced.gif](examples/inferenced.gif)
+
+### Dynamic time warping
+
+With time-series analysis, one of the most challenging aspects is the synchronisation of the two different clips. The choreography is with high probability shifted in time in some way, which makes frame-to-frame distances infeasible without further work.
+Dynamic time warping works by matching up peaks and throughs, and allows for some shifts in time between the datasets.
+DTW requires one-dimensional data, so we split up the data into multiple one-dimensional curves, and calculated the total penalty as a weighted sum of the DTW algorithm on these curves.
+
 ![dtw.png](dtw.png)
 
 The frontend is implemented in Vite, while the backend is a mixture of Go and Python together with Pocketbase as a database.
 
-![inferenced.gif](examples/inferenced.gif)
 
 ## References
 
