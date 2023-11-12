@@ -1,5 +1,4 @@
-import { Button } from "@mui/material";
-import "../Drawer.css";
+import { Button, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Pages } from "../context/PageContext";
 import { View } from "../layouts/MainDrawerLayout";
@@ -15,6 +14,7 @@ const useStyles = makeStyles({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
+    gap: "20px",
     zIndex: "10",
   },
 });
@@ -25,18 +25,25 @@ type DrawerProps = {
 };
 
 const Drawer = ({ view, setView }: DrawerProps) => {
+  const theme = useTheme();
   const classes = useStyles({ view });
 
   return (
     <nav className={classes.nav}>
       <Button
-        sx={{ borderBottom: view === "home" ? "solid 2px white" : "" }}
+        sx={{
+          borderBottom: view === "home" ? "solid 3px #e43397" : "",
+          backgroundColor: theme.palette.background.default,
+        }}
         onClick={() => setView("home")}
       >
         Home
       </Button>
       <Button
-        sx={{ borderBottom: view === "leaderboard" ? "solid 2px white" : "" }}
+        sx={{
+          borderBottom: view === "leaderboard" ? "solid 3px #e43397" : "",
+          backgroundColor: theme.palette.background.default,
+        }}
         onClick={() => setView("leaderboard")}
       >
         Leaderboard
