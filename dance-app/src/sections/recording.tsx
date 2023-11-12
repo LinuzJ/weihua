@@ -132,10 +132,10 @@ const RecordingPage = ({
                 onClick={recordingRef.current ? countDown : initCamera}
                 variant="outlined"
                 className={classes.recordButton}
-                sx={{ backgroundColor: "rgba(1, 191, 200, 0.1)" }}
+                sx={{ backgroundColor: "rgba(1, 191, 200, 0.4)" }}
               >
                 <Typography variant="h2">
-                  {recordingRef.current ? "Start" : "Get ready"}
+                  {recordingRef.current ? "click to Start 🔥" : "get ready 💃"}
                 </Typography>
               </Button>
             )}
