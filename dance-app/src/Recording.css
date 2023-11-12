@@ -67,9 +67,10 @@
   justify-content: center;
   height: 100dvh;
 }
-.video-container > video {
+video {
+  margin: auto;;
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
 }
 
 .countdown:before {
