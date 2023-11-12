@@ -65,6 +65,9 @@ const LoginForm = () => {
             sx={{
               input: { color: "white" },
             }}
+            InputLabelProps={{
+              style: { color: "white" },
+            }}
           />
           <TextField
             label="Password"
@@ -75,6 +78,9 @@ const LoginForm = () => {
             margin="normal"
             sx={{
               input: { color: "white" },
+            }}
+            InputLabelProps={{
+              style: { color: "white" },
             }}
           />
           <br />
