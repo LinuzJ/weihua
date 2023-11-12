@@ -9,7 +9,7 @@ import { Button, Typography, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { RefVideo, Tier } from "./home";
 import { useSubscribe } from "../hooks/useSubscribe";
-import Score from "./score";
+import MainScore from "./MainScore";
 
 const useStyles = makeStyles(() => ({
   backButton: {
@@ -81,17 +81,17 @@ const RecordingPage = ({
   };
 
   const countDown = () => {
-    console.log('countdown start')
-    setShowCountDown(true)
+    console.log("countdown start");
+    setShowCountDown(true);
     setTimeout(() => {
-      record()
-      console.log('countdown end')
-      setShowCountDown(false)
-    }, 3000)
-  }
+      record();
+      console.log("countdown end");
+      setShowCountDown(false);
+    }, 3000);
+  };
 
   const record = async () => {
-    console.log('record start')
+    console.log("record start");
     const { current: recording } = recordingRef;
     if (recording) {
       setShowVideo(VideoState.recording);
@@ -99,7 +99,7 @@ const RecordingPage = ({
       setTimeout(async () => {
         await stopRecording(recording.id);
         setShowVideo(VideoState.preview);
-        console.log('record end')
+        console.log("record end");
       }, 7000);
     }
     console.log(recordingRef.current);
@@ -107,10 +107,10 @@ const RecordingPage = ({
 
   useEffect(() => {
     if (data?.score) {
-      setConfetti(true)
+      setConfetti(true);
       setTimeout(() => {
-        setConfetti(false)
-      }, 6000)
+        setConfetti(false);
+      }, 6000);
       unsubscribe();
     }
   }, [data, unsubscribe, setConfetti]);
@@ -134,17 +134,20 @@ const RecordingPage = ({
                 className={classes.recordButton}
                 sx={{ backgroundColor: "rgba(1, 191, 200, 0.1)" }}
               >
-                  <Typography variant="h2">
-                    {recordingRef.current ? "Start" : "Get ready"}
-                  </Typography>
+                <Typography variant="h2">
+                  {recordingRef.current ? "Start" : "Get ready"}
+                </Typography>
               </Button>
             )}
           </div>
           {tier === 4 ? (
             <audio autoPlay>
-              <source src="https://junctionb.nyman.dev/api/files/zl4ca9hay8p2v75/jfab2b6cif6dugz/crab_rave_UGU0Q9nZfl.mp3" type="audio/mp3" />
+              <source
+                src="https://junctionb.nyman.dev/api/files/zl4ca9hay8p2v75/jfab2b6cif6dugz/crab_rave_UGU0Q9nZfl.mp3"
+                type="audio/mp3"
+              />
             </audio>
-          ): null}
+          ) : null}
         </header>
         <div className="container">
           {activeRecordings.map((recording) => (
@@ -192,7 +195,7 @@ const RecordingPage = ({
             />
           )}
         {page === "home" && recordingRef.current && hasRecording && (
-          <Score score={data?.score} subscribed={subscribed} />
+          <MainScore score={data?.score} subscribed={subscribed} />
         )}
       </footer>
     </div>

@@ -1,7 +1,7 @@
 import { Box, useTheme } from "@mui/material";
 import Loader from "../components/Loader";
 
-const Score = ({
+const MainScore = ({
   score,
   subscribed,
 }: {
@@ -16,9 +16,9 @@ const Score = ({
       className="submit-container"
       sx={{ fontSize: "4rem", color: theme.palette.success.main }}
     >
-      {!score && subscribed ? <Loader /> : score}
+      {(!score || score === -1) && subscribed ? <Loader /> : score}
     </Box>
   );
 };
 
-export default Score;
+export default MainScore;
