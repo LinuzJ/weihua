@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Recording } from "react-record-webcam/dist/useRecording";
 import "./Submit.css";
 import Loader from "./components/Loader";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import pb from "./pocketBase";
 
 interface SubmitProps {
@@ -39,13 +39,14 @@ const Submit = ({ tier, video, onSubmit }: SubmitProps) => {
       <Button
         onClick={upload}
         sx={{
-          backgroundColor: "rgba(1, 191, 200, 0.2)",
+          backgroundColor: "rgba(1, 191, 200, 0.4)",
           borderRadius: "15px",
-          width: "40px",
-          height: "40px",
+          width: "20vw",
+          height: "10vh",
+          fontSize: "20px",
         }}
       >
-        {isLoading ? <Loader /> : "Analyze"}
+        {isLoading ? <Loader /> : <Typography>Submit</Typography>}
       </Button>
     </div>
   );
