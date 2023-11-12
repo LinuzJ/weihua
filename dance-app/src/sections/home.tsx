@@ -1,4 +1,4 @@
-import { Container, Typography, Button, Grid } from "@mui/material";
+import { Container, Typography, Button, Grid, Tooltip } from "@mui/material";
 import RecordingPage from "./recording";
 import { useEffect, useState } from "react";
 import pb from "../pocketBase";
@@ -98,6 +98,18 @@ const HomeSection = ({ setConfetti }: HomeSectionProps) => {
               >
                 Tier 3
               </Button>
+            </Grid>
+            <Grid item xs={8} md={4}>
+              <Tooltip title="Extra difficult">
+                <Button
+                  variant="contained"
+                  color="info"
+                  fullWidth
+                  onClick={() => handleButtonClick(Tier.Tier4)}
+                >
+                  Tier 4
+                </Button>
+              </Tooltip>
             </Grid>
           </Grid>
         </Container>
