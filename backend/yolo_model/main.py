@@ -15,7 +15,7 @@ def infer():
 @app.route('/compare', methods=['POST'])
 def compare():
     frames1 = request.json.get('frames1')
-    frames2 = request.json.get('frames2')
+    frames2 = request.json.get('frames2')  # reference video!!!
     return str(comparison.score(frames1, frames2))
 
 

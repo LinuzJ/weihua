@@ -5,10 +5,10 @@ from dtaidistance import dtw
 
 
 # call only this one!
-def score(frames1, frames2):
+def score(frames1, reference_frames):
     # high means good match
     return max(0, min(100, 10 + 100 * (1 - _distance(_frames_to_movements(frames1),
-                                                     _frames_to_movements(frames2)))))
+                                                     _frames_to_movements(reference_frames)))))
 
 
 def _frames_to_movements(frames):
@@ -43,12 +43,12 @@ def _frames_to_movements(frames):
     return movements
 
 
-def _distance(move1, move2):
+def _distance(move1, reference_move):
     dists = []
     for i in range(0, 17):
         for j in range(0, 2):
-            dist = dtw.distance_fast(move1[i, :, j], move2[i, :, j])
-            dists.append(dist)
-    # print(dists)
+            if np.sum(reference_move[i, :, j]) > 0:
+                dist = dtw.distance_fast(move1[i, :, j], reference_move[i, :, j])
+                dists.append(dist)
 
     return np.mean(dists)
