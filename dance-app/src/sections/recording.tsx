@@ -31,12 +31,19 @@ const options = {
 
 interface RecordingPageProps {
   refVideo: RefVideo | undefined;
-  tier: number
+  tier: number;
   pb: Pocketbase;
   goBack: (tier: Tier | null) => void;
+  setConfetti: (c: boolean) => void;
 }
 
-const RecordingPage = ({ refVideo, tier, pb, goBack }: RecordingPageProps) => {
+const RecordingPage = ({
+  refVideo,
+  tier,
+  pb,
+  goBack,
+  setConfetti,
+}: RecordingPageProps) => {
   const theme = useTheme();
   const classes = useStyles(theme);
 
@@ -140,7 +147,12 @@ const RecordingPage = ({ refVideo, tier, pb, goBack }: RecordingPageProps) => {
       </div>
       <footer className="footer">
         {recordingRef.current && hasRecording && page === "home" ? (
-          <Submit tier={tier} video={recordingRef.current} pb={pb} />
+          <Submit
+            tier={tier}
+            video={recordingRef.current}
+            pb={pb}
+            setConfetti={setConfetti}
+          />
         ) : null}
       </footer>
     </div>

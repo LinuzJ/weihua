@@ -9,9 +9,10 @@ interface SubmitProps {
   tier: number;
   video: Recording;
   pb: PocketBase;
+  setConfetti: (c: boolean) => void;
 }
 
-const Submit: FC<SubmitProps> = ({ tier, video, pb }) => {
+const Submit: FC<SubmitProps> = ({ tier, video, pb, setConfetti }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const upload = async () => {
@@ -29,8 +30,11 @@ const Submit: FC<SubmitProps> = ({ tier, video, pb }) => {
       formData.append("score", "-1");
       await pb.collection("videos").create(formData);
       setTimeout(() => setIsLoading((state) => !state), 1000);
+      console.log("confetti on");
+      setConfetti(true);
     }
   };
+
   return (
     <div className="submit-container">
       <Button onClick={upload}>{isLoading ? <Loader /> : "Analyze"}</Button>
