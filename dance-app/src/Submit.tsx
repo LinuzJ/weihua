@@ -1,18 +1,17 @@
-import { FC, useState } from "react";
-import PocketBase from "pocketbase";
+import { useState } from "react";
 import { Recording } from "react-record-webcam/dist/useRecording";
 import "./Submit.css";
 import Loader from "./components/Loader";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
+import pb from "./pocketBase";
 
 interface SubmitProps {
   tier: number;
   video: Recording;
-  pb: PocketBase;
-  setConfetti: (c: boolean) => void;
+  onSubmit?: (id: string) => void;
 }
 
-const Submit: FC<SubmitProps> = ({ tier, video, pb, setConfetti }) => {
+const Submit = ({ tier, video, onSubmit }: SubmitProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const upload = async () => {
@@ -28,10 +27,10 @@ const Submit: FC<SubmitProps> = ({ tier, video, pb, setConfetti }) => {
       formData.append("tier", tier.toString());
       formData.append("try", "1");
       formData.append("score", "-1");
-      await pb.collection("videos").create(formData);
-      setTimeout(() => setIsLoading((state) => !state), 1000);
-      console.log("confetti on");
-      setConfetti(true);
+
+      const videoRecord = await pb.collection("videos").create(formData);
+      onSubmit?.(videoRecord.id);
+      setIsLoading(false);
     }
   };
 
@@ -39,9 +38,15 @@ const Submit: FC<SubmitProps> = ({ tier, video, pb, setConfetti }) => {
     <div className="submit-container">
       <Button
         onClick={upload}
-        sx={{ backgroundColor: "rgba(1, 191, 200, 0.2)", borderRadius: "15px" }}
+        sx={{
+          backgroundColor: "rgba(1, 191, 200, 0.4)",
+          borderRadius: "15px",
+          width: "20vw",
+          height: "10vh",
+          fontSize: "20px",
+        }}
       >
-        {isLoading ? <Loader /> : "Analyze"}
+        {isLoading ? <Loader /> : <Typography>Submit</Typography>}
       </Button>
     </div>
   );

@@ -1,14 +1,15 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useRecordWebcam } from "react-record-webcam";
 import { Recording } from "react-record-webcam/dist/useRecording";
 import Leaderboard from "../components/Leaderboard";
 import Submit from "../Submit";
 import "../Recording.css";
-import Pocketbase from "pocketbase";
 import { PageContext } from "../context/PageContext";
 import { Button, Typography, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { RefVideo, Tier } from "./home";
+import { useSubscribe } from "../hooks/useSubscribe";
+import MainScore from "./MainScore";
 
 const useStyles = makeStyles(() => ({
   backButton: {
@@ -32,7 +33,6 @@ const options = {
 interface RecordingPageProps {
   refVideo: RefVideo | undefined;
   tier: number;
-  pb: Pocketbase;
   goBack: (tier: Tier | null) => void;
   setConfetti: (c: boolean) => void;
 }
@@ -40,7 +40,6 @@ interface RecordingPageProps {
 const RecordingPage = ({
   refVideo,
   tier,
-  pb,
   goBack,
   setConfetti,
 }: RecordingPageProps) => {
@@ -66,6 +65,7 @@ const RecordingPage = ({
   const page = useContext(PageContext);
   const [showVideo, setShowVideo] = useState<VideoState>(VideoState.preview);
   const [showCountDown, setShowCountDown] = useState<boolean>(false);
+  const { data, subscribe, unsubscribe, subscribed } = useSubscribe("videos");
   const recordingRef = useRef<Recording | null>(null);
   const hasRecording = recordingRef.current?.previewRef.current?.src;
 
@@ -81,17 +81,17 @@ const RecordingPage = ({
   };
 
   const countDown = () => {
-    console.log('countdown start')
-    setShowCountDown(true)
+    console.log("countdown start");
+    setShowCountDown(true);
     setTimeout(() => {
-      record()
-      console.log('countdown end')
-      setShowCountDown(false)
-    }, 3000)
-  }
+      record();
+      console.log("countdown end");
+      setShowCountDown(false);
+    }, 3000);
+  };
 
   const record = async () => {
-    console.log('record start')
+    console.log("record start");
     const { current: recording } = recordingRef;
     if (recording) {
       setShowVideo(VideoState.recording);
@@ -99,11 +99,22 @@ const RecordingPage = ({
       setTimeout(async () => {
         await stopRecording(recording.id);
         setShowVideo(VideoState.preview);
-        console.log('record end')
+        console.log("record end");
       }, 7000);
     }
     console.log(recordingRef.current);
   };
+
+  useEffect(() => {
+    if (data?.score) {
+      setConfetti(true);
+      setTimeout(() => {
+        setConfetti(false);
+      }, 6000);
+      unsubscribe();
+    }
+  }, [data, unsubscribe, setConfetti]);
+
   return (
     <div className={`App ${page === "leaderboard" ? "view-change" : ""}`}>
       <div className="view record-view">
@@ -123,17 +134,20 @@ const RecordingPage = ({
                 className={classes.recordButton}
                 sx={{ backgroundColor: "rgba(1, 191, 200, 0.1)" }}
               >
-                  <Typography variant="h2">
-                    {recordingRef.current ? "Start" : "Get ready"}
-                  </Typography>
+                <Typography variant="h2">
+                  {recordingRef.current ? "Start" : "Get ready"}
+                </Typography>
               </Button>
             )}
           </div>
           {tier === 4 ? (
             <audio autoPlay>
-              <source src="https://junctionb.nyman.dev/api/files/zl4ca9hay8p2v75/jfab2b6cif6dugz/crab_rave_UGU0Q9nZfl.mp3" type="audio/mp3" />
+              <source
+                src="https://junctionb.nyman.dev/api/files/zl4ca9hay8p2v75/jfab2b6cif6dugz/crab_rave_UGU0Q9nZfl.mp3"
+                type="audio/mp3"
+              />
             </audio>
-          ): null}
+          ) : null}
         </header>
         <div className="container">
           {activeRecordings.map((recording) => (
@@ -169,14 +183,20 @@ const RecordingPage = ({
         <Leaderboard />
       </div>
       <footer className="footer">
-        {recordingRef.current && hasRecording && page === "home" ? (
-          <Submit
-            tier={tier}
-            video={recordingRef.current}
-            pb={pb}
-            setConfetti={setConfetti}
-          />
-        ) : null}
+        {page === "home" &&
+          recordingRef.current &&
+          hasRecording &&
+          !subscribed &&
+          !data?.score && (
+            <Submit
+              tier={tier}
+              video={recordingRef.current}
+              onSubmit={subscribe}
+            />
+          )}
+        {page === "home" && recordingRef.current && hasRecording && (
+          <MainScore score={data?.score} subscribed={subscribed} />
+        )}
       </footer>
     </div>
   );
