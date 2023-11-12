@@ -48,8 +48,8 @@ const RecordingPage = ({
 
   const constraints: { aspectRatio: number; height: number; width: number } = {
     aspectRatio: 3,
-    height: 720,
-    width: 1280,
+    height: 1080,
+    width: 1920,
   };
   const {
     applyConstraints,
