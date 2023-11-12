@@ -68,6 +68,8 @@ const RecordingPage = ({
   const { data, subscribe, unsubscribe, subscribed } = useSubscribe("videos");
   const recordingRef = useRef<Recording | null>(null);
   const hasRecording = recordingRef.current?.previewRef.current?.src;
+  const score: number | null =
+    data?.score != null && data?.score !== -1 ? data.score : null;
 
   const initCamera = async () => {
     const newRecording = await createRecording();
@@ -106,14 +108,14 @@ const RecordingPage = ({
   };
 
   useEffect(() => {
-    if (data?.score) {
+    if (score != null) {
       setConfetti(true);
       setTimeout(() => {
         setConfetti(false);
       }, 6000);
       unsubscribe();
     }
-  }, [data, unsubscribe, setConfetti]);
+  }, [score, unsubscribe, setConfetti]);
 
   return (
     <div className={`App ${page === "leaderboard" ? "view-change" : ""}`}>
@@ -195,7 +197,7 @@ const RecordingPage = ({
             />
           )}
         {page === "home" && recordingRef.current && hasRecording && (
-          <MainScore score={data?.score} subscribed={subscribed} />
+          <MainScore score={score} subscribed={subscribed} />
         )}
       </footer>
     </div>
