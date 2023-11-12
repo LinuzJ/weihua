@@ -12,7 +12,8 @@
 
 More and more concerns are being voiced about mental health situation, especially among young ([1]). The Covid-19 pandemic made us
 more isolated and less physically active. What's more, rise of addictive social media apps that use techniques like eroding natural cues
-and the slot machine effect ([2]) further promotes harmful sedentary lifestyle.
+and the slot machine effect ([2]) further promotes harmful sedentary lifestyle. However, aerobic exercises of low to moderate
+intensity are proven to have a positive effect on wellbeing ([3]).
 
 ## Concept
 
@@ -22,6 +23,7 @@ and the slot machine effect ([2]) further promotes harmful sedentary lifestyle.
 
 Weihua is social media of the new age. 
 Combining many features of the apps young people enjoy, it is created with wellbeing of its users at the core. 
+Physical activity brings users to our app, not the toxic social media mechanisms. 
 
 Weihua is a fun way to challenge yourself and your friends, while learning some moves to show off at a party later, 
 together with your friend group. Every day there are 5 new challenges of different difficulty, which you can try to complete.
@@ -36,11 +38,13 @@ Key features include
 
 The app builds on success of popular apps like BeReal and TikTok to encourage people to move, in a fun and engaging way.
 We hope that by trying again and again to reproduce a challenging dance our users will receive the necessary minutes of 
-daily physical activity. 
+daily physical activity.
 
-We take concerns about social media seriously and design our app in a way that avoids body-shaming, discrimination, hate speech.
+[//]: # (not yet true - We take concerns about social media seriously and design our app in a way that avoids body-shaming, discrimination, hate speech.)
 
 ## Implementation
+
+**_Note: our app is optimized for mobile devices!_**
 
 We used state-of-the-art computer vision models to extract pose data from video data.
 With this we can compare user submissions to a reference choreography, and give user scores depending on how accurately they follow the original moves.
@@ -62,10 +66,27 @@ DTW requires one-dimensional data, so we split up the data into multiple one-dim
 
 ![dtw.png](dtw.png)
 
-The frontend is implemented in Vite, while the backend is a mixture of Go and Python together with Pocketbase as a database.
 
 
-## References
+### Architecture
+![architecture.png](architecture.png)
+
+The front end is implemented using React (Vite). 
+
+
+## Further improvements
+
+In the future, as the userbase grows, leaderboard should show scores among the user's friend group as well as some global results
+for different tiers of difficulty. Moreover, we believe that to alleviate possibilities of body-shaming and body image issues
+the leaderboard should not show actual videos of the users (at least globally).
+
+Users should be able to upload videos of their own dances to challenge their friends. 
+
+
+
+
+
 
 [1]: https://www.who.int/news/item/22-11-2019-new-who-led-study-says-majority-of-adolescents-worldwide-are-not-sufficiently-physically-active-putting-their-current-and-future-health-at-risk
 [2]: https://www.researchgate.net/publication/328801640_Adolescent_social_networking_How_do_social_media_operators_facilitate_habitual_use
+[3]: https://www.frontiersin.org/articles/10.3389/fpsyg.2020.00509/full
