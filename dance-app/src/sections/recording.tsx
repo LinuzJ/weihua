@@ -5,7 +5,7 @@ import Leaderboard from "../components/Leaderboard";
 import Submit from "../Submit";
 import "../Recording.css";
 import { PageContext } from "../context/PageContext";
-import { Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { RefVideo, Tier } from "./home";
 import { useSubscribe } from "../hooks/useSubscribe";
@@ -68,6 +68,8 @@ const RecordingPage = ({
   const { data, subscribe, unsubscribe, subscribed } = useSubscribe("videos");
   const recordingRef = useRef<Recording | null>(null);
   const hasRecording = recordingRef.current?.previewRef.current?.src;
+  const score: number | null =
+    data?.score != null && data?.score !== -1 ? data.score : null;
 
   const initCamera = async () => {
     const newRecording = await createRecording();
@@ -106,14 +108,14 @@ const RecordingPage = ({
   };
 
   useEffect(() => {
-    if (data?.score) {
+    if (score != null) {
       setConfetti(true);
       setTimeout(() => {
         setConfetti(false);
       }, 6000);
       unsubscribe();
     }
-  }, [data, unsubscribe, setConfetti]);
+  }, [score, unsubscribe, setConfetti]);
 
   return (
     <div className={`App ${page === "leaderboard" ? "view-change" : ""}`}>
@@ -128,20 +130,35 @@ const RecordingPage = ({
             {showCountDown ? (
               <div className="countdown" />
             ) : (
-              <Button
-                onClick={recordingRef.current ? countDown : initCamera}
-                variant="outlined"
-                className={classes.recordButton}
-                sx={{ backgroundColor: "rgba(1, 191, 200, 0.4)" }}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
               >
-                <Typography variant="h2">
-                  {recordingRef.current ? "click to Start 🔥" : "get ready 💃"}
+                <Typography variant="body1">
+                  {!recordingRef.current
+                    ? "Memorize this move and then click the button below!"
+                    : ""}
                 </Typography>
-              </Button>
+                <Button
+                  onClick={recordingRef.current ? countDown : initCamera}
+                  variant="outlined"
+                  className={classes.recordButton}
+                  sx={{ backgroundColor: "rgba(1, 191, 200, 0.4)" }}
+                >
+                  <Typography variant="h2">
+                    {recordingRef.current
+                      ? "click to Start 🔥"
+                      : "get ready 💃"}
+                  </Typography>
+                </Button>
+              </Box>
             )}
           </div>
           {tier === 4 ? (
-            <audio autoPlay>
+            <audio autoPlay loop>
               <source
                 src="https://junctionb.nyman.dev/api/files/zl4ca9hay8p2v75/jfab2b6cif6dugz/crab_rave_UGU0Q9nZfl.mp3"
                 type="audio/mp3"
@@ -195,7 +212,7 @@ const RecordingPage = ({
             />
           )}
         {page === "home" && recordingRef.current && hasRecording && (
-          <MainScore score={data?.score} subscribed={subscribed} />
+          <MainScore score={score} subscribed={subscribed} />
         )}
       </footer>
     </div>

@@ -17,16 +17,27 @@ const MainScore = ({
   subscribed: boolean;
 }) => {
   const theme = useTheme();
-  if (!score && !subscribed) return null;
-
-  return (
-    <Box
-      className="submit-container"
-      sx={{ fontSize: "4rem", color: theme.palette.success.main }}
-    >
-      {subscribed && (!score || score === -1) ? <Loader /> : formatScore(score)}
-    </Box>
-  );
+  if (score == null && !subscribed) {
+    return null;
+  } else if (score == null && subscribed) {
+    return (
+      <Box
+        className="submit-container"
+        sx={{ fontSize: "4rem", color: theme.palette.success.main }}
+      >
+        <Loader />
+      </Box>
+    );
+  } else {
+    return (
+      <Box
+        className="submit-container"
+        sx={{ fontSize: "4rem", color: theme.palette.success.main }}
+      >
+        {formatScore(score)}
+      </Box>
+    );
+  }
 };
 
 export default MainScore;
