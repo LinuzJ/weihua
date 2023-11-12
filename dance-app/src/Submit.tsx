@@ -38,7 +38,12 @@ const Submit = ({ tier, video, onSubmit }: SubmitProps) => {
     <div className="submit-container">
       <Button
         onClick={upload}
-        sx={{ backgroundColor: "rgba(1, 191, 200, 0.2)", borderRadius: "15px" }}
+        sx={{
+          backgroundColor: "rgba(1, 191, 200, 0.2)",
+          borderRadius: "15px",
+          width: "40px",
+          height: "40px",
+        }}
       >
         {isLoading ? <Loader /> : "Analyze"}
       </Button>
