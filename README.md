@@ -84,7 +84,9 @@ the leaderboard should not show actual videos of the users (at least globally).
 Users should be able to upload videos of their own dances to challenge their friends. 
 
 
+## Demo 
 
+![demo.gif](demo.gif)
 
 
 
