@@ -13,7 +13,7 @@
 More and more concerns are being voiced about mental health situation, especially among young ([1]). The Covid-19 pandemic made us
 more isolated and less physically active. What's more, rise of addictive social media apps that use techniques like eroding natural cues
 and the slot machine effect ([2]) further promotes harmful sedentary lifestyle. However, aerobic exercises of low to moderate
-intensity are proven to have a positive effect on wellbeing ([3]).
+intensity, especially dance, are proven to have a positive effect on wellbeing ([3], [4]).
 
 ## Concept
 
@@ -91,3 +91,4 @@ Users should be able to upload videos of their own dances to challenge their fri
 [1]: https://www.who.int/news/item/22-11-2019-new-who-led-study-says-majority-of-adolescents-worldwide-are-not-sufficiently-physically-active-putting-their-current-and-future-health-at-risk
 [2]: https://www.researchgate.net/publication/328801640_Adolescent_social_networking_How_do_social_media_operators_facilitate_habitual_use
 [3]: https://www.frontiersin.org/articles/10.3389/fpsyg.2020.00509/full
+[4]: https://www.tandfonline.com/doi/abs/10.1080/17533010903488582
