@@ -37,6 +37,7 @@ const HomeSection = () => {
           refVideo={refVideos.find(
             (video) => video.tier === selectedTier.toString(),
           )}
+          tier={selectedTier}
           pb={pb}
           goBack={setSelectedTier}
         />
