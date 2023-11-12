@@ -3,6 +3,7 @@ import Loader from "./Loader";
 import "../Leaderboard.css";
 import { Card, CardContent, CardMedia, Stack, Typography } from "@mui/material";
 import pb from "../pocketBase";
+import { formatScore } from "../sections/MainScore";
 
 interface VideoData {
   id: string;
@@ -67,7 +68,7 @@ function Leaderboard() {
                 <Typography variant="body2">
                   {expand?.user?.name}
                   {": "}
-                  <b>{score}</b>
+                  <b>{formatScore(score)}</b>
                 </Typography>
               </CardContent>
             </Card>
