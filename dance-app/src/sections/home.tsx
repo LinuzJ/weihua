@@ -42,7 +42,6 @@ const HomeSection = ({ setConfetti }: HomeSectionProps) => {
             (video) => video.tier === selectedTier.toString(),
           )}
           tier={selectedTier}
-          pb={pb}
           goBack={setSelectedTier}
           setConfetti={setConfetti}
         />

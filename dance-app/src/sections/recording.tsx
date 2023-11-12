@@ -1,14 +1,15 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useRecordWebcam } from "react-record-webcam";
 import { Recording } from "react-record-webcam/dist/useRecording";
 import Leaderboard from "../components/Leaderboard";
 import Submit from "../Submit";
 import "../Recording.css";
-import Pocketbase from "pocketbase";
 import { PageContext } from "../context/PageContext";
 import { Button, Typography, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { RefVideo, Tier } from "./home";
+import { useSubscribe } from "../hooks/useSubscribe";
+import Score from "./score";
 
 const useStyles = makeStyles(() => ({
   backButton: {
@@ -32,7 +33,6 @@ const options = {
 interface RecordingPageProps {
   refVideo: RefVideo | undefined;
   tier: number;
-  pb: Pocketbase;
   goBack: (tier: Tier | null) => void;
   setConfetti: (c: boolean) => void;
 }
@@ -40,7 +40,6 @@ interface RecordingPageProps {
 const RecordingPage = ({
   refVideo,
   tier,
-  pb,
   goBack,
   setConfetti,
 }: RecordingPageProps) => {
@@ -66,6 +65,7 @@ const RecordingPage = ({
   const page = useContext(PageContext);
   const [showVideo, setShowVideo] = useState<VideoState>(VideoState.preview);
   const [showCountDown, setShowCountDown] = useState<boolean>(false);
+  const { data, subscribe, unsubscribe, subscribed } = useSubscribe("videos");
   const recordingRef = useRef<Recording | null>(null);
   const hasRecording = recordingRef.current?.previewRef.current?.src;
 
@@ -104,6 +104,17 @@ const RecordingPage = ({
     }
     console.log(recordingRef.current);
   };
+
+  useEffect(() => {
+    if (data?.score) {
+      setConfetti(true)
+      setTimeout(() => {
+        setConfetti(false)
+      }, 6000)
+      unsubscribe();
+    }
+  }, [data, unsubscribe, setConfetti]);
+
   return (
     <div className={`App ${page === "leaderboard" ? "view-change" : ""}`}>
       <div className="view record-view">
@@ -164,14 +175,20 @@ const RecordingPage = ({
         <Leaderboard />
       </div>
       <footer className="footer">
-        {recordingRef.current && hasRecording && page === "home" ? (
-          <Submit
-            tier={tier}
-            video={recordingRef.current}
-            pb={pb}
-            setConfetti={setConfetti}
-          />
-        ) : null}
+        {page === "home" &&
+          recordingRef.current &&
+          hasRecording &&
+          !subscribed &&
+          !data?.score && (
+            <Submit
+              tier={tier}
+              video={recordingRef.current}
+              onSubmit={subscribe}
+            />
+          )}
+        {page === "home" && recordingRef.current && hasRecording && (
+          <Score score={data?.score} subscribed={subscribed} />
+        )}
       </footer>
     </div>
   );
