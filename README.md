@@ -71,6 +71,7 @@ DTW requires one-dimensional data, so we split up the data into multiple one-dim
 ### Architecture
 ![architecture.png](architecture.png)
 
+The architecture of the product is split up into multiple parts. Two backend servers and one frontend. The decoupling of the backends was done to be able to use the latest Computer Vision models ([YOLOv8](https://github.com/ultralytics/ultralytics)), which are only easily available through Python clients while utilizing the speed of a Go-based REST API backend for all other requests. 
 The front end is implemented using React (Vite). 
 
 
