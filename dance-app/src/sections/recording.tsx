@@ -5,7 +5,7 @@ import Leaderboard from "../components/Leaderboard";
 import Submit from "../Submit";
 import "../Recording.css";
 import { PageContext } from "../context/PageContext";
-import { Button, Typography, useTheme } from "@mui/material";
+import { Box, Button, Typography, useTheme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { RefVideo, Tier } from "./home";
 import { useSubscribe } from "../hooks/useSubscribe";
@@ -130,16 +130,31 @@ const RecordingPage = ({
             {showCountDown ? (
               <div className="countdown" />
             ) : (
-              <Button
-                onClick={recordingRef.current ? countDown : initCamera}
-                variant="outlined"
-                className={classes.recordButton}
-                sx={{ backgroundColor: "rgba(1, 191, 200, 0.4)" }}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
               >
-                <Typography variant="h2">
-                  {recordingRef.current ? "click to Start 🔥" : "get ready 💃"}
+                <Typography variant="body1">
+                  {!recordingRef.current
+                    ? "Memorize this move and then click the button below!"
+                    : ""}
                 </Typography>
-              </Button>
+                <Button
+                  onClick={recordingRef.current ? countDown : initCamera}
+                  variant="outlined"
+                  className={classes.recordButton}
+                  sx={{ backgroundColor: "rgba(1, 191, 200, 0.4)" }}
+                >
+                  <Typography variant="h2">
+                    {recordingRef.current
+                      ? "click to Start 🔥"
+                      : "get ready 💃"}
+                  </Typography>
+                </Button>
+              </Box>
             )}
           </div>
           {tier === 4 ? (

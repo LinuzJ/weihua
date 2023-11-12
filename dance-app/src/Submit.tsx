@@ -36,6 +36,7 @@ const Submit = ({ tier, video, onSubmit }: SubmitProps) => {
 
   return (
     <div className="submit-container">
+      <Typography color="primary">Click submit to see your score!</Typography>
       <Button
         onClick={upload}
         sx={{
