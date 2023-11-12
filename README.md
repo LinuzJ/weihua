@@ -62,7 +62,12 @@ DTW requires one-dimensional data, so we split up the data into multiple one-dim
 
 ![dtw.png](dtw.png)
 
-The frontend is implemented in Vite, while the backend is a mixture of Go and Python together with Pocketbase as a database.
+
+
+### Architecture
+![architecture.png](architecture.png)
+
+The front end is implemented using React (Vite). 
 
 
 ## References
