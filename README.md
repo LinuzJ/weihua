@@ -17,6 +17,8 @@ intensity are proven to have a positive effect on wellbeing ([3]).
 
 ## Concept
 
+**_Note: our app is optimized for Android mobile devices!_**
+
 ![linus_cropped.gif](examples%2Fpumpkin%2Flinus_cropped.gif)
 ![reference.gif](examples%2Fpumpkin%2Freference.gif)
 ![tobias.gif](examples%2Fpumpkin%2Ftobias.gif)
@@ -43,8 +45,6 @@ daily physical activity.
 [//]: # (not yet true - We take concerns about social media seriously and design our app in a way that avoids body-shaming, discrimination, hate speech.)
 
 ## Implementation
-
-**_Note: our app is optimized for mobile devices!_**
 
 We used state-of-the-art computer vision models to extract pose data from video data.
 With this we can compare user submissions to a reference choreography, and give user scores depending on how accurately they follow the original moves.
