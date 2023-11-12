@@ -1,5 +1,6 @@
 .list {
   width: 100vw;
+  max-width: 600px;
   overflow: scroll;
   max-height: 100dvh;
 }
