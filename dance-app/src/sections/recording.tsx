@@ -141,7 +141,7 @@ const RecordingPage = ({
             )}
           </div>
           {tier === 4 ? (
-            <audio autoPlay>
+            <audio autoPlay loop>
               <source
                 src="https://junctionb.nyman.dev/api/files/zl4ca9hay8p2v75/jfab2b6cif6dugz/crab_rave_UGU0Q9nZfl.mp3"
                 type="audio/mp3"
