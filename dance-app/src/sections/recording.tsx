@@ -47,9 +47,9 @@ const RecordingPage = ({
   const classes = useStyles(theme);
 
   const constraints: { aspectRatio: number; height: number; width: number } = {
-    aspectRatio: 2.33,
-    height: 200,
-    width: 100,
+    aspectRatio: 3,
+    height: 720,
+    width: 1280,
   };
   const {
     applyConstraints,

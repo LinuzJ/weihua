@@ -66,11 +66,19 @@
   align-items: center;
   justify-content: center;
   height: 100dvh;
+  width: calc(1.778 * 100dvh);
 }
+
 video {
-  margin: auto;;
+  max-width: 600px;
+  margin: auto;
+}
+
+.video-container > video {
   width: 100%;
-  max-width: 700px;
+  transform: translateX(calc((100dvw - 1.778 * 100dvh) / 2));
+  max-width: 60000px;
+  margin: none;
 }
 
 .countdown:before {
