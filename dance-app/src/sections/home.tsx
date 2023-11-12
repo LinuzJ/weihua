@@ -1,7 +1,15 @@
-import { Container, Typography, Button, Grid, Tooltip } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Button,
+  Grid,
+  Tooltip,
+  useTheme,
+} from "@mui/material";
 import RecordingPage from "./recording";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import pb from "../pocketBase";
+import { AuthContext } from "../context/AuthContext";
 
 export interface RefVideo {
   id: string;
@@ -23,6 +31,8 @@ const HomeSection = () => {
   const [selectedTier, setSelectedTier] = useState<Tier | null>(null);
   const handleButtonClick = (tier: Tier) => setSelectedTier(tier);
   const [refVideos, setRefVideos] = useState<RefVideo[]>([]);
+  const theme = useTheme();
+  const { logout } = useContext(AuthContext);
 
   useEffect(() => {
     pb.collection("source_videos")
@@ -42,6 +52,21 @@ const HomeSection = () => {
         />
       ) : (
         <Container maxWidth="md">
+          <Button
+            sx={{
+              backgroundColor: theme.palette.background.default,
+              position: "fixed",
+              top: 10,
+              left: 10,
+              zIndex: 20,
+              "@media (max-width: 400px)": {
+                display: "none !important",
+              },
+            }}
+            onClick={() => logout()}
+          >
+            Sign Out
+          </Button>
           <Grid
             container
             spacing={3}

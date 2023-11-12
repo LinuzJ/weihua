@@ -1,9 +1,18 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Loader from "./Loader";
 import "../Leaderboard.css";
-import { Card, CardContent, CardMedia, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Stack,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import pb from "../pocketBase";
 import { formatScore } from "../sections/MainScore";
+import { AuthContext } from "../context/AuthContext";
 
 interface VideoData {
   id: string;
@@ -25,6 +34,8 @@ interface User {
 function Leaderboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [videos, setVideos] = useState<VideoData[]>([]);
+  const theme = useTheme();
+  const { logout } = useContext(AuthContext);
 
   useEffect(() => {
     pb.collection("videos")
@@ -44,6 +55,20 @@ function Leaderboard() {
 
   return (
     <div className="list">
+      <Button
+        sx={{
+          backgroundColor: theme.palette.background.default,
+          zIndex: 20,
+          marginTop: "10px",
+          marginLeft: "5px",
+          "@media (max-width: 400px)": {
+            display: "none !important",
+          },
+        }}
+        onClick={() => logout()}
+      >
+        Sign Out
+      </Button>
       <Stack spacing={2} overflow="scroll" alignItems="center">
         <div className="spacer">
           <Typography variant="h2" color="primary">
