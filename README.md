@@ -4,7 +4,7 @@
 ![yolo deployment](https://github.com/LinuzJ/weihua/actions/workflows/weihua.yml/badge.svg)
 
 
-# Weihua - Learn the moves
+# Weihua - _Match the move!_
 
 ### [Junction'23](https://www.junction2023.com/), Huawei challenge
 
