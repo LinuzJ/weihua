@@ -4,9 +4,6 @@ import { ThemeProvider } from "@emotion/react";
 import { Box, createTheme, CssBaseline } from "@mui/material";
 import LandingPage from "./sections/landing";
 import MainDrawerLayout from "./layouts/MainDrawerLayout";
-import { useState } from "react";
-import { useWindowSize } from "@uidotdev/usehooks";
-import Confetti from "react-confetti";
 
 const theme = createTheme({
   typography: {
@@ -38,19 +35,10 @@ const theme = createTheme({
 });
 
 function App() {
-  const { width, height } = useWindowSize();
-  const [confetti, setConfetti] = useState<boolean>(false);
   return (
     <AuthProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {confetti && (
-          <Confetti
-            style={{ position: "absolute", top: "0" }}
-            width={width}
-            height={height}
-          />
-        )}
         <Box
           sx={{
             display: "flex",
@@ -61,7 +49,7 @@ function App() {
           }}
         >
           <MainDrawerLayout>
-            <LandingPage setConfetti={setConfetti} />
+            <LandingPage />
           </MainDrawerLayout>
         </Box>
       </ThemeProvider>

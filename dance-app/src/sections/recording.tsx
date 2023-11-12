@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useRecordWebcam } from "react-record-webcam";
 import { Recording } from "react-record-webcam/dist/useRecording";
 import Leaderboard from "../components/Leaderboard";
@@ -10,6 +10,7 @@ import { makeStyles } from "@mui/styles";
 import { RefVideo, Tier } from "./home";
 import { useSubscribe } from "../hooks/useSubscribe";
 import MainScore from "./MainScore";
+import Confetti from "../components/confetti";
 
 const useStyles = makeStyles(() => ({
   backButton: {
@@ -34,17 +35,12 @@ interface RecordingPageProps {
   refVideo: RefVideo | undefined;
   tier: number;
   goBack: (tier: Tier | null) => void;
-  setConfetti: (c: boolean) => void;
 }
 
-const RecordingPage = ({
-  refVideo,
-  tier,
-  goBack,
-  setConfetti,
-}: RecordingPageProps) => {
+const RecordingPage = ({ refVideo, tier, goBack }: RecordingPageProps) => {
   const theme = useTheme();
   const classes = useStyles(theme);
+  const [confetti, setConfetti] = useState(false);
 
   const constraints: { aspectRatio: number; height: number; width: number } = {
     aspectRatio: 3,
@@ -65,12 +61,8 @@ const RecordingPage = ({
   const page = useContext(PageContext);
   const [showVideo, setShowVideo] = useState<VideoState>(VideoState.preview);
   const [showCountDown, setShowCountDown] = useState<boolean>(false);
-  const { data, subscribe, unsubscribe, subscribed } = useSubscribe("videos");
   const recordingRef = useRef<Recording | null>(null);
   const hasRecording = recordingRef.current?.previewRef.current?.src;
-  const score: number | null =
-    data?.score != null && data?.score !== -1 ? data.score : null;
-
   const initCamera = async () => {
     const newRecording = await createRecording();
     if (!newRecording) {
@@ -107,18 +99,23 @@ const RecordingPage = ({
     console.log(recordingRef.current);
   };
 
-  useEffect(() => {
-    if (score != null) {
+  const [score, setScore] = useState<number | null>(null);
+
+  const { subscribe, unsubscribe, subscribed } = useSubscribe("videos", (e) => {
+    const s = e.record?.score;
+    if (s != null && s !== -1) {
+      setScore(s);
       setConfetti(true);
       setTimeout(() => {
         setConfetti(false);
-      }, 6000);
+      }, 10000);
       unsubscribe();
     }
-  }, [score, unsubscribe, setConfetti]);
+  });
 
   return (
     <div className={`App ${page === "leaderboard" ? "view-change" : ""}`}>
+      {confetti && <Confetti />}
       <div className="view record-view">
         <header
           className={`App-header ${showVideo === "recording" ? "hide" : ""}`}
@@ -204,7 +201,7 @@ const RecordingPage = ({
           recordingRef.current &&
           hasRecording &&
           !subscribed &&
-          !data?.score && (
+          score == null && (
             <Submit
               tier={tier}
               video={recordingRef.current}

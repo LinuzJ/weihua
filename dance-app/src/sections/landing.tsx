@@ -3,17 +3,9 @@ import { PageContext } from "../context/PageContext";
 import Leaderboard from "../components/Leaderboard";
 import HomeSection from "./home";
 
-interface LandingPageProps {
-  setConfetti: (c: boolean) => void;
-}
-
-const LandingPage = ({ setConfetti }: LandingPageProps) => {
+const LandingPage = () => {
   const page = useContext(PageContext);
-  return page === "home" ? (
-    <HomeSection setConfetti={setConfetti} />
-  ) : (
-    <Leaderboard />
-  );
+  return page === "home" ? <HomeSection /> : <Leaderboard />;
 };
 
 export default LandingPage;

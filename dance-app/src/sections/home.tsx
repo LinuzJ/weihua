@@ -19,11 +19,7 @@ export enum Tier {
   Tier5 = 5,
 }
 
-interface HomeSectionProps {
-  setConfetti: (c: boolean) => void;
-}
-
-const HomeSection = ({ setConfetti }: HomeSectionProps) => {
+const HomeSection = () => {
   const [selectedTier, setSelectedTier] = useState<Tier | null>(null);
   const handleButtonClick = (tier: Tier) => setSelectedTier(tier);
   const [refVideos, setRefVideos] = useState<RefVideo[]>([]);
@@ -43,7 +39,6 @@ const HomeSection = ({ setConfetti }: HomeSectionProps) => {
           )}
           tier={selectedTier}
           goBack={setSelectedTier}
-          setConfetti={setConfetti}
         />
       ) : (
         <Container maxWidth="md">
