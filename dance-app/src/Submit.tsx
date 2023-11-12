@@ -37,7 +37,12 @@ const Submit: FC<SubmitProps> = ({ tier, video, pb, setConfetti }) => {
 
   return (
     <div className="submit-container">
-      <Button onClick={upload}>{isLoading ? <Loader /> : "Analyze"}</Button>
+      <Button
+        onClick={upload}
+        sx={{ backgroundColor: "rgba(1, 191, 200, 0.2)", borderRadius: "15px" }}
+      >
+        {isLoading ? <Loader /> : "Analyze"}
+      </Button>
     </div>
   );
 };
